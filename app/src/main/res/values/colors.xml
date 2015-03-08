@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="LIME_500">#CDDC39</color>
+    <color name="GREY_500">#9E9E9E</color>¡
+    <color name="GREY_100">#F5F5F5</color>
+
+    <color name="toolbar_background">@color/LIME_500</color>
+
+    <!-- NAVDRAWER -->
+    <color name="navdrawer_background">@color/GREY_100</color>
+    <color name="navdrawer_item_seleccionado">@color/LIME_500</color>
+    <color name="navdrawer_item_no_seleccionado">@color/GREY_500</color>
+</resources>
