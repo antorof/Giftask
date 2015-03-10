@@ -21,6 +21,8 @@ import es.trigit.gitftask.R;
 
 public class ActivityPrincipal extends ActionBarActivity
 {
+    private final String TAG = "Activity Principal";
+
     /**
      * NavDrawer
      */
@@ -42,33 +44,44 @@ public class ActivityPrincipal extends ActionBarActivity
     /**
      * Listado en orden de los item que se han añadido al NavDrawer
      */
-    private ArrayList<Integer> mNavDrawerItems = new ArrayList<Integer>();
+    private ArrayList<NAVDRAWER_ITEM> mNavDrawerItems = new ArrayList<NAVDRAWER_ITEM>();
 
     /**
-     * ID del item del NavDrawer activo (por defecto entramos en la pantalla TIMELINE)
+     * Item del NavDrawer activo (por defecto entramos en la pantalla TIMELINE)
      */
-    private int navDrawerItemActivo = 0;
+    private NAVDRAWER_ITEM navDrawerItemActivo = NAVDRAWER_ITEM.TIMELINE;
 
-    // Todos los posibles items que se pueden añadir al NavDrawer
-    protected static final int NAVDRAWER_ITEM_TIMELINE = 0;
-    protected static final int NAVDRAWER_ITEM_DISCOVER = 1;
-    protected static final int NAVDRAWER_ITEM_AJUSTES = 2;
-    protected static final int NAVDRAWER_ITEM_SEPARADOR = -1;
+    /**
+     * Enumerado con los items del Navdrawer
+     */
+    private static enum NAVDRAWER_ITEM {TIMELINE, MIS_REGALOS, LO_TENGO, DISCOVER, AJUSTES, ABOUT, CERRAR, SEPARADOR};
 
-    // Títulos de los posibles items del NavDrawer,
-    // los índices deben corresponder con los de la lista superior
+    /**
+     * Títulos de los posibles items del NavDrawer,
+     * los índices deben corresponder con los de la lista superior
+     */
     private static final int[] NAVDRAWER_TITLE_RES_ID = new int[]{
             R.string.navdrawer_item_timeline,
+            R.string.navdrawer_item_mis_regalos,
+            R.string.navdrawer_item_lo_tengo,
             R.string.navdrawer_item_discover,
             R.string.navdrawer_item_ajustes,
+            R.string.navdrawer_item_about,
+            R.string.navdrawer_item_cerrar,
     };
 
-    // Iconos de los posibles items del NavDrawer,
-    // los índices deben corresponder con los de la lista superior
+    /**
+     * Iconos de los posibles items del NavDrawer,
+     * los índices deben corresponder con los de la lista superior
+     */
     private static final int[] NAVDRAWER_ICON_RES_ID = new int[]{
             R.drawable.ic_launcher, // TIMELINE
+            R.drawable.ic_launcher, // MIS REGALOS
+            R.drawable.ic_launcher, // LO TENGO
             R.drawable.ic_launcher, // DISCOVER
             R.drawable.ic_launcher, // AJUSTES
+            R.drawable.ic_launcher, // ABOUT
+            R.drawable.ic_launcher, // CERRAR
     };
 
     @Override
@@ -83,9 +96,11 @@ public class ActivityPrincipal extends ActionBarActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        getFragmentManager().beginTransaction()
+                .replace(R.id.contenedor, TimelineFragment.newInstance())
+                .commit();
+
         crearNavDrawer();
-
-
     }
 
     @Override
@@ -113,8 +128,7 @@ public class ActivityPrincipal extends ActionBarActivity
     /**
      * Crea el NavDrawer apropiadamente
      */
-    private void crearNavDrawer()
-    {
+    private void crearNavDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (mDrawerLayout == null)
             return;
@@ -127,10 +141,6 @@ public class ActivityPrincipal extends ActionBarActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        getFragmentManager().beginTransaction()
-                .replace(R.id.contenedor, TimelineFragment.newInstance())
-                .commit();
-
         rellenarNavDrawer();
     }
 
@@ -141,9 +151,10 @@ public class ActivityPrincipal extends ActionBarActivity
     {
         mNavDrawerItems.clear();
 
-        mNavDrawerItems.add(NAVDRAWER_ITEM_TIMELINE);
-        mNavDrawerItems.add(NAVDRAWER_ITEM_DISCOVER);
-        mNavDrawerItems.add(NAVDRAWER_ITEM_AJUSTES);
+        mNavDrawerItems.add(NAVDRAWER_ITEM.TIMELINE);
+        mNavDrawerItems.add(NAVDRAWER_ITEM.DISCOVER);
+        mNavDrawerItems.add(NAVDRAWER_ITEM.SEPARADOR);
+        mNavDrawerItems.add(NAVDRAWER_ITEM.AJUSTES);
 
         crearItemsNavDrawer();
     }
@@ -161,9 +172,9 @@ public class ActivityPrincipal extends ActionBarActivity
         mDrawerItemListContainer.removeAllViews();
 
         int i = 0;
-        for (int idItem : mNavDrawerItems)
+        for (NAVDRAWER_ITEM navItem : mNavDrawerItems)
         {
-            mNavDrawerItemViews[i] = crearNavDrawerItem(idItem, mDrawerItemListContainer);
+            mNavDrawerItemViews[i] = crearNavDrawerItem(navItem, mDrawerItemListContainer);
             mDrawerItemListContainer.addView(mNavDrawerItemViews[i]);
             i++;
         }
@@ -172,19 +183,19 @@ public class ActivityPrincipal extends ActionBarActivity
 
     /**
      * Crea un item del NavDrawer
-     * @param idItem ID del item correspondiente
+     * @param navItem Item a crear
      * @param container Contenedor de los NavDrawer
      * @return View del item creado
      */
-    private View crearNavDrawerItem(final int idItem, final ViewGroup container)
+    private View crearNavDrawerItem(final NAVDRAWER_ITEM navItem, final ViewGroup container)
     {
         int layoutToInflate = 0;
 
-        layoutToInflate = idItem == NAVDRAWER_ITEM_SEPARADOR ? R.layout.navdrawer_separador : R.layout.navdrawer_item;
+        layoutToInflate = navItem == NAVDRAWER_ITEM.SEPARADOR ? R.layout.navdrawer_separador : R.layout.navdrawer_item;
 
         View view = getLayoutInflater().inflate(layoutToInflate, container, false);
 
-        if(idItem == NAVDRAWER_ITEM_SEPARADOR)
+        if(navItem == NAVDRAWER_ITEM.SEPARADOR)
         {
             // TODO: añadir lo de accesibilidad
             return view;
@@ -193,32 +204,32 @@ public class ActivityPrincipal extends ActionBarActivity
         ImageView iconoView = (ImageView) view.findViewById(R.id.icono);
         TextView tituloView = (TextView) view.findViewById(R.id.titulo);
 
-        iconoView.setImageResource(NAVDRAWER_ICON_RES_ID[idItem]);
-        tituloView.setText(getString(NAVDRAWER_TITLE_RES_ID[idItem]));
+        iconoView.setImageResource(NAVDRAWER_ICON_RES_ID[navItem.ordinal()]);
+        tituloView.setText(getString(NAVDRAWER_TITLE_RES_ID[navItem.ordinal()]));
 
         view.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                navDrawerItemActivo = idItem;
+                navDrawerItemActivo = navItem;
                 formatearColorItemsNavDrawer(container);
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
-                switch(idItem)
+                switch(navItem)
                 {
-                    case NAVDRAWER_ITEM_TIMELINE:
+                    case TIMELINE:
                         getFragmentManager().beginTransaction()
                                 .replace(R.id.contenedor, TimelineFragment.newInstance())
                                 .commit();
                         Log.v("Navdrawer", "Seleccionado TIMELINE");
                         break;
-                    case NAVDRAWER_ITEM_DISCOVER:
+                    case DISCOVER:
                         getFragmentManager().beginTransaction()
                             .replace(R.id.contenedor, DiscoverFragment.newInstance())
                             .commit();
                         Log.v("Navdrawer", "Seleccionado DISCOVER");
                         break;
-                    case NAVDRAWER_ITEM_AJUSTES:
+                    case AJUSTES:
                         Log.v("Navdrawer", "Seleccionado AJUSTES");
                         break;
                 }
@@ -235,19 +246,22 @@ public class ActivityPrincipal extends ActionBarActivity
     private void formatearColorItemsNavDrawer(ViewGroup container)
     {
         int i = 0;
-        for (int idItem : mNavDrawerItems)
+        for(NAVDRAWER_ITEM navItem : mNavDrawerItems)
         {
-            View view = container.getChildAt(i);
-            ImageView iconoView = (ImageView) view.findViewById(R.id.icono);
-            TextView tituloView = (TextView) view.findViewById(R.id.titulo);
+            if(navItem != NAVDRAWER_ITEM.SEPARADOR)
+            {
+                View view = container.getChildAt(i);
+                ImageView iconoView = (ImageView) view.findViewById(R.id.icono);
+                TextView tituloView = (TextView) view.findViewById(R.id.titulo);
 
-            iconoView.setColorFilter(idItem == navDrawerItemActivo ?
-                    getResources().getColor(R.color.navdrawer_item_seleccionado) :
-                    getResources().getColor(R.color.navdrawer_item_no_seleccionado));
+                iconoView.setColorFilter(navItem == navDrawerItemActivo ?
+                        getResources().getColor(R.color.navdrawer_item_seleccionado) :
+                        getResources().getColor(R.color.navdrawer_item_no_seleccionado));
 
-            tituloView.setTextColor(idItem == navDrawerItemActivo ?
-                    getResources().getColor(R.color.navdrawer_item_seleccionado) :
-                    getResources().getColor(R.color.navdrawer_item_no_seleccionado));
+                tituloView.setTextColor(navItem == navDrawerItemActivo ?
+                        getResources().getColor(R.color.navdrawer_item_seleccionado) :
+                        getResources().getColor(R.color.navdrawer_item_no_seleccionado));
+            }
 
             i++;
         }
