@@ -140,6 +140,7 @@ public class ActivityPrincipal extends ActionBarActivity
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle(NAVDRAWER_TITLE_RES_ID[navDrawerItemActivo.ordinal()]);
 
         rellenarNavDrawer();
     }
@@ -152,9 +153,14 @@ public class ActivityPrincipal extends ActionBarActivity
         mNavDrawerItems.clear();
 
         mNavDrawerItems.add(NAVDRAWER_ITEM.TIMELINE);
+        mNavDrawerItems.add(NAVDRAWER_ITEM.MIS_REGALOS);
+        mNavDrawerItems.add(NAVDRAWER_ITEM.LO_TENGO);
         mNavDrawerItems.add(NAVDRAWER_ITEM.DISCOVER);
         mNavDrawerItems.add(NAVDRAWER_ITEM.SEPARADOR);
         mNavDrawerItems.add(NAVDRAWER_ITEM.AJUSTES);
+        mNavDrawerItems.add(NAVDRAWER_ITEM.ABOUT);
+        mNavDrawerItems.add(NAVDRAWER_ITEM.SEPARADOR);
+        mNavDrawerItems.add(NAVDRAWER_ITEM.CERRAR);
 
         crearItemsNavDrawer();
     }
@@ -213,6 +219,7 @@ public class ActivityPrincipal extends ActionBarActivity
             public void onClick(View v)
             {
                 navDrawerItemActivo = navItem;
+                getSupportActionBar().setTitle(NAVDRAWER_TITLE_RES_ID[navItem.ordinal()]);
                 formatearColorItemsNavDrawer(container);
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
                 switch(navItem)
