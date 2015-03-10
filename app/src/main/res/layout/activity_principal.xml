@@ -4,22 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <android.support.v7.widget.Toolbar
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:minHeight="?attr/actionBarSize"
-        android:background="@color/toolbar_background"/>
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/headerbar"
+        android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/contenedor"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
-        android:layout_weight="1" />
+        <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/toolbar_background"/>
 
-   <include layout="@layout/navdrawer" />
+        <FrameLayout
+            android:id="@+id/contenedor"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <include layout="@layout/navdrawer" />
 
 </android.support.v4.widget.DrawerLayout>
-    

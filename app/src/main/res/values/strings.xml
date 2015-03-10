@@ -8,6 +8,10 @@
 
     <!-- NAVDRAWER -->
     <string name="navdrawer_item_timeline">Timeline</string>
+    <string name="navdrawer_item_mis_regalos">Mis regalos</string>
+    <string name="navdrawer_item_lo_tengo">Lo tengo</string>
     <string name="navdrawer_item_discover">Discover</string>
     <string name="navdrawer_item_ajustes">Ajustes</string>
+    <string name="navdrawer_item_about">About</string>
+    <string name="navdrawer_item_cerrar">Cerrar sesión</string>
 </resources>
