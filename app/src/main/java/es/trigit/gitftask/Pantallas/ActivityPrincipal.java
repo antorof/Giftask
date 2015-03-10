@@ -1,5 +1,6 @@
 package es.trigit.gitftask.Pantallas;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -225,15 +226,11 @@ public class ActivityPrincipal extends ActionBarActivity
                 switch(navItem)
                 {
                     case TIMELINE:
-                        getFragmentManager().beginTransaction()
-                                .replace(R.id.contenedor, TimelineFragment.newInstance())
-                                .commit();
+                        sustituirFragment(NAVDRAWER_ITEM.TIMELINE);
                         Log.v("Navdrawer", "Seleccionado TIMELINE");
                         break;
                     case DISCOVER:
-                        getFragmentManager().beginTransaction()
-                            .replace(R.id.contenedor, DiscoverFragment.newInstance())
-                            .commit();
+                        sustituirFragment(NAVDRAWER_ITEM.DISCOVER);
                         Log.v("Navdrawer", "Seleccionado DISCOVER");
                         break;
                     case AJUSTES:
@@ -272,5 +269,27 @@ public class ActivityPrincipal extends ActionBarActivity
 
             i++;
         }
+    }
+
+    /**
+     * Sustituye el fragment actual por uno nuevo mediante una animación
+     * @param fragmentTarget Fragment al que navegar
+     */
+    private void sustituirFragment(NAVDRAWER_ITEM fragmentTarget)
+    {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+
+        switch(fragmentTarget)
+        {
+            case TIMELINE:
+                ft.replace(R.id.contenedor, TimelineFragment.newInstance());
+                break;
+            case DISCOVER:
+                ft.replace(R.id.contenedor, DiscoverFragment.newInstance());
+                break;
+        }
+
+        ft.commit();
     }
 }
