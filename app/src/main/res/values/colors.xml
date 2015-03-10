@@ -1,10 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Colores; Si luego no usamos pues borramos. -->
+    <color name="indigo100">#E8EAF6</color>
+    <color name="indigo200">#9fa8da</color>
+    <color name="indigo300">#7986cb</color>
+    <color name="indigo400">#5c6bc0</color>
+    <color name="indigo500">#3f51b5</color>
+    <color name="indigo600">#3949ab</color>
+    <color name="indigo700">#303f9f</color>
+    <color name="indigo800">#283593</color>
+    <color name="indigo900">#1a237e</color>
+
+    <color name="verde50">#E8F5E9</color>
+    <color name="verde100">#C8E6C9</color>
+    <color name="verde200">#A5D6A7</color>
+    <color name="verde300">#81C784</color>
+    <color name="verde400">#66BB6A</color>
+    <color name="verde500">#4CAF50</color>
+    <color name="verde600">#43A047</color>
+    <color name="verde700">#388E3C</color>
+    <color name="verde800">#2E7D32</color>
+    <color name="verde900">#1B5E20</color>
+
+    <color name="azul100">#d0d9ff</color>
+    <color name="azul200">#afbfff</color>
+    <color name="azul300">#91a7ff</color>
+    <color name="azul400">#738ffe</color>
+    <color name="azul500">#5677fc</color>
+    <color name="azul600">#4e6cef</color>
+    <color name="azul700">#455ede</color>
+    <color name="azul800">#3b50ce</color>
+    <color name="azul900">#2a36b1</color>
+
+    <color name="gris100">#F5F5F5</color>
+    <color name="gris200">#EEEEEE</color>
+    <color name="gris300">#E0E0E0</color>
+    <color name="gris400">#BDBDBD</color>
+    <color name="gris500">#9E9E9E</color>
+    <color name="gris600">#757575</color>
+    <color name="gris700">#616161</color>
+    <color name="gris800">#424242</color>
+    <color name="gris900">#212121</color>
+
     <color name="LIME_500">#CDDC39</color>
     <color name="GREY_500">#9E9E9E</color>¡
     <color name="GREY_100">#F5F5F5</color>
 
+    <color name="blanco">#ffffff</color>
+    <color name="negro">#000000</color>
+    <color name="transparente">#00000000</color>
+
+
+    <!-- Colores de aplicacion base -->
+    <color name="primary_ultra_dark">#7D4700</color>
+    <color name="primary_dark">#B67B2E</color>
+    <color name="primary">#F38900</color>
+    <color name="primary_light">#F9A83E</color>
+    <color name="primary_ultra_light">#F9BD70</color>
+
+    <!-- Rellenar con los colores generales. -->
+    <color name="accent">@color/GREY_500</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#B6B6B6</color>
     <color name="toolbar_background">@color/LIME_500</color>
 
     <!-- NAVDRAWER -->
