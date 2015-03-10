@@ -11,6 +11,9 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowSoftInputMode">stateHidden</item>
 
+        <item name="colorPrimary">@color/toolbar_background</item>
+        <item name="colorPrimaryDark">@color/LIME_700</item>
+        <item name="colorAccent">#e040fb</item>
     </style>
 
 </resources>
