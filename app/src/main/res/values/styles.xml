@@ -20,4 +20,15 @@
         <item name="colorAccent">#e040fb</item>
      -->
 
+    <style name="NavDrawerTitleText" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="NavDrawerSubtitleText" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
