@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,9 +31,14 @@ public class DiscoverFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        Button get, post, put, delete;
-        ArrayList<NameValuePair> paras;
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
+
+
+        Button get, post, put, delete;
+        final ArrayList<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("param1","paramcontent1"));
+        params.add(new BasicNameValuePair("param2","paramcontent2"));
+        final String BASE_URL = getResources().getString(R.string.BASE_URL);
 
         get = (Button) view.findViewById(R.id.getBtn);
         post = (Button) view.findViewById(R.id.postBtn);
@@ -42,35 +48,61 @@ public class DiscoverFragment extends Fragment
         get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncPetition().execute("http://giftask-roommatesteam.rhcloud.com/giftask/rest/tester",Http.GET_STR);
+                new AsyncPetition(BASE_URL+"/rest/tester",Http.Method.GET,params).execute();
             }
         });
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncPetition().execute("http://giftask-roommatesteam.rhcloud.com/giftask/rest/tester",Http.POST_STR);
+                new AsyncPetition(BASE_URL+"/rest/tester",Http.Method.POST,params).execute();
+            }
+        });
+        put.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AsyncPetition(BASE_URL+"/rest/tester",Http.Method.PUT,params).execute();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AsyncPetition(BASE_URL+"/rest/tester",Http.Method.DELETE,params).execute();
             }
         });
         return view;
     }
 
     class AsyncPetition extends AsyncTask< String, Integer, Integer > {
-        String url,method,resp;
+        String url,resp;
+        Http.Method method;
+        ArrayList<NameValuePair> parameters;
+
+        public AsyncPetition(String url, Http.Method method, ArrayList<NameValuePair> parameters) {
+            this.url = url;
+            this.method = method;
+            this.parameters = parameters;
+        }
 
         protected Integer doInBackground(String... params) {
-            url = params[0];
-            method = params[1];
-
             try {
-                if (method.equals(Http.GET_STR))
-                    resp = Http.responseToString(Http.get(url));
-                else if (method.equals(Http.POST_STR))
-                    resp = Http.responseToString(Http.post(url));
-                Log.i("",resp);
-                return 0;
-            } catch (IOException e) {
+                switch (method) {
+                    case GET:
+                        resp = Http.responseToString(Http.get(url,parameters));
+                        break;
+                    case POST:
+                        resp = Http.responseToString(Http.post(url,parameters));
+                        break;
+                    case PUT:
+                        resp = Http.responseToString(Http.put(url,parameters));
+                        break;
+                    case DELETE:
+                        resp = Http.responseToString(Http.delete(url,parameters));
+                        break;
+                }
+            }catch (IOException e) {
                 return 1;
             }
+            return 0;
         }
 
         protected void onPostExecute(Integer result) {

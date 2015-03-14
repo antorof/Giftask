@@ -31,8 +31,10 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -66,8 +68,8 @@ public class Http {
      * @param parameters Parameters to include in petition.
      *
      * @return Response from the server.
-     * @throws IOException If the <tt>parameters</tt> have errors, connection timmed out,
-     *                     socket timmed out or other error related with the connection occurs.
+     * @throws IOException If the <tt>parameters</tt> have errors, connection timed out,
+     *                     socket timed out or other error related with the connection occurs.
      */
     public static HttpResponse post(String url, ArrayList<NameValuePair> parameters)
             throws IOException {
@@ -94,7 +96,7 @@ public class Http {
      * @param url URL to perform POST petition.
      *
      * @return Response from the server.
-     * @throws IOException If the connection timmed out, socket timmed out or other error
+     * @throws IOException If the connection timed out, socket timed out or other error
      *                     related with the connection occurs.
      */
     public static HttpResponse post(String url)
@@ -109,8 +111,8 @@ public class Http {
      * @param parameters Parameters to include in petition.
      *
      * @return Response from the server.
-     * @throws IOException If the <tt>parameters</tt> have errors, connection timmed out,
-     *                     socket timmed out or other error related with the connection occurs.
+     * @throws IOException If the <tt>parameters</tt> have errors, connection timed out,
+     *                     socket timed out or other error related with the connection occurs.
      */
     public static HttpResponse get(String url, ArrayList<NameValuePair> parameters)
             throws IOException {
@@ -124,7 +126,7 @@ public class Http {
 
         if (parameters != null) {
             String paramString = URLEncodedUtils.format(parameters, "utf-8");
-            url += paramString;
+            url += "?"+paramString;
         }
 
         HttpGet httpget = new HttpGet(url);
@@ -137,7 +139,7 @@ public class Http {
     /**
      * Performs http GET petition to server.
      *
-     * @param url URL to perform POST petition.
+     * @param url URL to perform GET petition.
      *
      * @return Response from the server.
      * @throws IOException If the connection timmed out, socket timmed out or other error
@@ -146,6 +148,99 @@ public class Http {
     public static HttpResponse get(String url)
             throws IOException {
         return get(url, null);
+    }
+
+    /**
+     * Performs http PUT petition to server.
+     *
+     * @param url        URL to perform PUT petition.
+     * @param parameters Parameters to include in petition.
+     *
+     * @return Response from the server.
+     * @throws IOException If the <tt>parameters</tt> have errors, connection timed out,
+     *                     socket timed out or other error related with the connection occurs.
+     */
+    public static HttpResponse put(String url, ArrayList<NameValuePair> parameters)
+            throws IOException {
+        HttpParams httpParameters = new BasicHttpParams();
+        int timeoutConnection = 10000;
+        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+        int timeoutSocket = 10000;
+        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+        HttpClient httpclient = new DefaultHttpClient(httpParameters);
+
+        if (parameters != null) {
+            String paramString = URLEncodedUtils.format(parameters, "utf-8");
+            url += "?"+paramString;
+        }
+
+        HttpPut httpput = new HttpPut(url);
+
+        HttpResponse response = httpclient.execute(httpput);
+
+        return  response;
+    }
+
+    /**
+     * Performs http PUT petition to server.
+     *
+     * @param url URL to perform PUT petition.
+     *
+     * @return Response from the server.
+     * @throws IOException If the connection timed out, socket timed out or other error
+     *                     related with the connection occurs.
+     */
+    public static HttpResponse put(String url)
+            throws IOException {
+        return put(url, null);
+    }
+
+
+    /**
+     * Performs http DELETE petition to server.
+     *
+     * @param url        URL to perform DELETE petition.
+     * @param parameters Parameters to include in petition.
+     *
+     * @return Response from the server.
+     * @throws IOException If the <tt>parameters</tt> have errors, connection timed out,
+     *                     socket timed out or other error related with the connection occurs.
+     */
+    public static HttpResponse delete(String url, ArrayList<NameValuePair> parameters)
+            throws IOException {
+        HttpParams httpParameters = new BasicHttpParams();
+        int timeoutConnection = 10000;
+        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+        int timeoutSocket = 10000;
+        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+        HttpClient httpclient = new DefaultHttpClient(httpParameters);
+
+        if (parameters != null) {
+            String paramString = URLEncodedUtils.format(parameters, "utf-8");
+            url += "?"+paramString;
+        }
+
+        HttpDelete httpdelete = new HttpDelete(url);
+
+        HttpResponse response = httpclient.execute(httpdelete);
+
+        return  response;
+    }
+
+    /**
+     * Performs http DELETE petition to server.
+     *
+     * @param url URL to perform DELETE petition.
+     *
+     * @return Response from the server.
+     * @throws IOException If the connection timed out, socket timed out or other error
+     *                     related with the connection occurs.
+     */
+    public static HttpResponse delete(String url)
+            throws IOException {
+        return delete(url, null);
     }
 
     /**
