@@ -1,7 +1,7 @@
 <merge  xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
         android:id="@+id/drawer_wrapper"
-        android:layout_width="260dp"
+        android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/white"
