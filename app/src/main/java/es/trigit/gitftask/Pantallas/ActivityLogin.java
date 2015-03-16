@@ -1,22 +1,40 @@
 package es.trigit.gitftask.Pantallas;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.IntentSender;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AppEventsLogger;
+import com.facebook.FacebookException;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphObject;
+import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.plus.PlusClient;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -30,66 +48,79 @@ import es.trigit.gitftask.R;
  * https://developers.google.com/+/mobile/android/getting-started#step_1_enable_the_google_api
  * and follow the steps in "Step 1" to create an OAuth 2.0 client for your package.
  */
-public class ActivityLogin extends ActionBarActivity {
+public class ActivityLogin extends FragmentActivity  implements ConnectionCallbacks, OnConnectionFailedListener{
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
+
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    //private UserLoginTask mAuthTask = null;
 
     // UI references.
     private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mEmailLoginFormView;
-    private SignInButton mPlusSignInButton;
+    ImageView imagen;
     private View mSignOutButtons;
     private View mLoginFormView;
-    private LoginButton authButton;
-    private Session.StatusCallback statusCallback =
-            new SessionStatusCallback();
+
+
+    /**
+     * Variables para el login de Facebook
+     */
+    private LoginButton btLoginFacebook;
+    private UiLifecycleHelper uiHelper;
+    private Session.StatusCallback callback = new Session.StatusCallback() {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+            onSessionStateChange(session, state, exception);
+        }
+    };
+
+    /**
+     * Variables para el login de Google+
+     */
+    private ProgressDialog mConnectionProgressDialog;
+    private SignInButton btLoginGooglePlus;
+    private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
+    private PlusClient mPlusClient;
+    private boolean signedInUser;
+    private ConnectionResult mConnectionResult;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        authButton = (LoginButton) this.findViewById(R.id.authButton);
-        authButton.setReadPermissions(Arrays.asList("public_profile"));
+        uiHelper = new UiLifecycleHelper(this, callback);
+        uiHelper.onCreate(savedInstanceState);
+        imagen = (ImageView) this.findViewById(R.id.imageView);
+        btLoginFacebook = (LoginButton) this.findViewById(R.id.authButton);
+        btLoginFacebook.setReadPermissions(Arrays.asList("public_profile","email"));
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         mEmailLoginFormView = findViewById(R.id.email_login_form);
         mSignOutButtons = findViewById(R.id.plus_sign_out_buttons);
 
-
-        authButton.setOnClickListener(new OnClickListener() {
+        btLoginFacebook.setOnErrorListener(new LoginButton.OnErrorListener() {
             @Override
-            public void onClick(View v) {
-                Session session = Session.getActiveSession();
-                if (!session.isOpened() && !session.isClosed()) {
-                    session.openForRead(new Session.OpenRequest(ActivityLogin.this)
-                            .setPermissions(Arrays.asList("public_profile"))
-                            .setCallback(statusCallback));
-                } else {
-                    Session.openActiveSession(ActivityLogin.this, true, statusCallback);
-                }
+            public void onError(FacebookException error) {
+                Log.i("", "Error " + error.getMessage());
             }
         });
 
-        // Find the Google+ sign in button.
-        mPlusSignInButton = (SignInButton) findViewById(R.id.plus_sign_in_button);
 
-        mPlusSignInButton.setOnClickListener(new OnClickListener() {
+        // Find the Google+ sign in button.
+        btLoginGooglePlus = (SignInButton) findViewById(R.id.plus_sign_in_button);
+        btLoginGooglePlus.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                // signIn();
+
+               googlePlusLogin();
             }
         });
 
@@ -118,14 +149,22 @@ public class ActivityLogin extends ActionBarActivity {
         });
 
 
+        //---------------------GOOGLE PLUS---------------------------
+        mPlusClient = new PlusClient.Builder(this, this, this)
+               // .setVisibleActivities("http://schemas.google.com/AddActivity", "http://schemas.google.com/BuyActivity")
+                .build();
+        // Se tiene que mostrar esta barra de progreso si no se resuelve el fallo de conexión.
+        mConnectionProgressDialog = new ProgressDialog(this);
+        mConnectionProgressDialog.setMessage("Signing in...");
+
+
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
+        uiHelper.onResume();
     }
 
     @Override
@@ -137,67 +176,118 @@ public class ActivityLogin extends ActionBarActivity {
     }
 
 
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //uiHelper.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_RESOLVE_ERR && resultCode == RESULT_OK) {
+            mConnectionResult = null;
+            mPlusClient.connect();
         }
+    }
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+        if (session != null && session.isOpened()) {
+            Bundle params = new Bundle();
+            params.putBoolean("redirect", false);
+            params.putInt("height", 500);
+            params.putInt("width", 500);
+            params.putString("type", "large");
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            new Request(
+                    session,
+                    "/me/picture",
+                    params,
+                    HttpMethod.GET,
+                    new Request.Callback() {
+                        public void onCompleted(Response response) {
+                            GraphObject graphObject = response.getGraphObject();
 
-           /* for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                            try {
+                                JSONObject jsonObject = graphObject.getInnerJSONObject();
+                                String url = jsonObject.getJSONObject("data").getString("url");
+
+                                Picasso.with(ActivityLogin.this).load(url).into(imagen);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+            ).executeAsync();
+
+            Log.d("DEBUG", "facebook session is open ");
+            // make request to the /me API
+            Request.newMeRequest(session, new Request.GraphUserCallback() {
+                // callback after Graph API response with user object
+                @Override
+                public void onCompleted(GraphUser user, Response response) {
+                    if (user != null) {
+                        JSONObject asdf = user.getInnerJSONObject();
+                        Log.d("DEBUG", "email: " + user.asMap().get("email").toString());
+                        Log.d("DEBUG", "id: " + user.asMap().get("id").toString());
+                        Log.d("DEBUG", "first_name: " + user.asMap().get("first_name").toString());
+                        Log.d("DEBUG", "last_name: " + user.asMap().get("last_name").toString());
+                        Log.d("DEBUG", "gender: " + user.asMap().get("gender").toString());
+                        Log.d("DEBUG", "locale: " + user.asMap().get("locale").toString());
+                    }
                 }
-            }*/
-
-            // TODO: register the new account here.
-            return true;
+            }).executeAsync();
         }
+    }
 
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            //showProgress(false);
 
-            if (success) {
-                startActivity(new Intent(ActivityLogin.this, ActivityPrincipal.class));
-                finish();
-            } else {
-                mPasswordView.setError("Rellenar");
-                mPasswordView.requestFocus();
+    //-------------------------------------METODOS GOOGLE PLUS----------------------------------
+    @Override
+    public void onConnected(Bundle bundle) {
+        String accountName = mPlusClient.getAccountName();
+        Toast.makeText(this, accountName + " is connected.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDisconnected() {
+        Log.d("", "disconnected");
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        if (result.hasResolution()) {
+            try {
+                result.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
+            } catch (IntentSender.SendIntentException e) {
+                mPlusClient.connect();
             }
         }
+        // Guarda el resultado y resuelve el fallo de conexión con el clic de un usuario.
+        mConnectionResult = result;
+    }
+    private void googlePlusLogin() {
 
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            //showProgress(false);
+        if (!mPlusClient.isConnecting()) {
+
+            signedInUser = true;
+
+            resolveSignInError();
+
         }
+
+    }
+
+    private void resolveSignInError() {
+        /*if (mConnectionResult.hasResolution()) {
+            try {
+                mIntentInProgress = true;
+                mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
+            } catch (SendIntentException e) {
+                mIntentInProgress = false;
+                mGoogleApiClient.connect();
+            }
+        }*/
     }
 
 
-    private class SessionStatusCallback implements Session.StatusCallback {
-        @Override
-        public void call(Session session, SessionState state, Exception exception) {
-            int woserwoser = 1;
-        }
-    }
+
 }
 
 
