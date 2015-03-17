@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Utils.ImageViewCuadrada
+        <es.trigit.gitftask.Utiles.ImageViewCuadrada
             android:id="@+id/gift_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
-                android:src="@drawable/ic_launcher"/>
+                android:src="@drawable/ic_favorite_white"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,13 +45,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="3dp"
         android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/gift_subheader_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_launcher"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="3dp"
+            android:src="@drawable/borrar_persona_ejemplo"
             android:layout_alignParentTop="true"/>
 
         <TextView
@@ -59,6 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/gift_subheader_image"
+            android:textSize="12sp"
             android:text="Pepe"/>
 
         <TextView
@@ -66,7 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/gift_subheader_image"
-            android:layout_below="@+id/gift_subheader_user"
+            android:layout_alignBottom="@+id/gift_subheader_image"
+            android:textSize="13sp"
             android:text="Canon RX"/>
 
     </RelativeLayout>
