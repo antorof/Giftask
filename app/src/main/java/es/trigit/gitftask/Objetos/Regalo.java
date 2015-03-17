@@ -2,9 +2,9 @@ package es.trigit.gitftask.Objetos;
 
 import android.graphics.Bitmap;
 
-import java.util.Date;
-
 /**
+ * Modela un regalo.
+ * 
  * Created by Antonio Toro on 17/03/2015.
  */
 public class Regalo {
