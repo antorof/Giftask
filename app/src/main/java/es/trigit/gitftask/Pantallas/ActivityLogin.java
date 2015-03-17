@@ -1,23 +1,14 @@
 package es.trigit.gitftask.Pantallas;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.IntentSender;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.AppEventsLogger;
-import com.facebook.FacebookException;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -25,48 +16,27 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
-import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.plus.PlusClient;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
-
+import java.io.IOException;
 import java.util.Arrays;
 
+import es.trigit.gitftask.Objetos.Usuario;
 import es.trigit.gitftask.R;
+import es.trigit.gitftask.Utiles.Globales;
 
-/**
- * A login screen that offers login via email/password and via Google+ sign in.
- * <p/>
- * ************ IMPORTANT SETUP NOTES: ************
- * In order for Google+ sign in to work with your app, you must first go to:
- * https://developers.google.com/+/mobile/android/getting-started#step_1_enable_the_google_api
- * and follow the steps in "Step 1" to create an OAuth 2.0 client for your package.
- */
-public class ActivityLogin extends FragmentActivity  implements ConnectionCallbacks, OnConnectionFailedListener{
+public class ActivityLogin extends FragmentActivity {
 
+    private enum TipoLogin{login, registro, facebook}
 
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    //private UserLoginTask mAuthTask = null;
-
-    // UI references.
-    private EditText mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mEmailLoginFormView;
-    ImageView imagen;
-    private View mSignOutButtons;
-    private View mLoginFormView;
+    private ProgressDialog mProgressDialog;
+    private MaterialEditText etEmail, etPassword, etNickname;
+    private View btConectar, btRegistrar;
+    private boolean mModoRegistrar;
+    private Usuario mUsuario;
+    private Activity mActivity;
 
 
     /**
@@ -81,85 +51,61 @@ public class ActivityLogin extends FragmentActivity  implements ConnectionCallba
         }
     };
 
-    /**
-     * Variables para el login de Google+
-     */
-    private ProgressDialog mConnectionProgressDialog;
-    private SignInButton btLoginGooglePlus;
-    private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
-    private PlusClient mPlusClient;
-    private boolean signedInUser;
-    private ConnectionResult mConnectionResult;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mActivity = this;
 
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
-        imagen = (ImageView) this.findViewById(R.id.imageView);
-        btLoginFacebook = (LoginButton) this.findViewById(R.id.authButton);
-        btLoginFacebook.setReadPermissions(Arrays.asList("public_profile","email"));
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-        mEmailLoginFormView = findViewById(R.id.email_login_form);
-        mSignOutButtons = findViewById(R.id.plus_sign_out_buttons);
+        btLoginFacebook = (LoginButton) this.findViewById(R.id.btActivityLogin_facebook);
+        btLoginFacebook.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_about_me"));
+        etEmail = (MaterialEditText) this.findViewById(R.id.etActivityLogin_email);
+        etPassword = (MaterialEditText) this.findViewById(R.id.etActivityLogin_password);
+        etNickname = (MaterialEditText) this.findViewById(R.id.etActivityLogin_nickname);
+        btConectar = findViewById(R.id.btActivityLogin_conectar);
+        btRegistrar = findViewById(R.id.btActivityLogin_registrar);
 
-        btLoginFacebook.setOnErrorListener(new LoginButton.OnErrorListener() {
+        mModoRegistrar = false;
+        mUsuario = new Usuario();
+        mProgressDialog = new ProgressDialog(this);
+        etNickname.setVisibility(View.INVISIBLE);
+
+        btRegistrar.setOnClickListener(new OnClickListener() {
             @Override
-            public void onError(FacebookException error) {
-                Log.i("", "Error " + error.getMessage());
+            public void onClick(View v) {
+                etNickname.setVisibility(View.VISIBLE);
+                btRegistrar.setVisibility(View.INVISIBLE);
+                mModoRegistrar = true;
             }
         });
 
-
-        // Find the Google+ sign in button.
-        btLoginGooglePlus = (SignInButton) findViewById(R.id.plus_sign_in_button);
-        btLoginGooglePlus.setOnClickListener(new OnClickListener() {
+        btConectar.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                if (mModoRegistrar) {
+                    new ThreadRegistro().execute();
 
-               googlePlusLogin();
-            }
-        });
+                } else {
+                    new ThreadLogin().execute();
 
-
-        // Set up the login form.
-        mEmailView = (EditText) findViewById(R.id.email);
-
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_NULL) {
-                    //attemptLogin();
-                    return true;
                 }
-                return false;
             }
         });
-
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //attemptLogin();
-            }
-        });
-
-
-        //---------------------GOOGLE PLUS---------------------------
-        mPlusClient = new PlusClient.Builder(this, this, this)
-               // .setVisibleActivities("http://schemas.google.com/AddActivity", "http://schemas.google.com/BuyActivity")
-                .build();
-        // Se tiene que mostrar esta barra de progreso si no se resuelve el fallo de conexión.
-        mConnectionProgressDialog = new ProgressDialog(this);
-        mConnectionProgressDialog.setMessage("Signing in...");
-
 
     }
 
+    public void onBackPressed() {
+        if (!mModoRegistrar) {
+            super.onBackPressed();
+        } else {
+            mModoRegistrar = false;
+            etNickname.setVisibility(View.INVISIBLE);
+            btRegistrar.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -167,30 +113,20 @@ public class ActivityLogin extends FragmentActivity  implements ConnectionCallba
         uiHelper.onResume();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
+    private void finActivity(TipoLogin tipo){
+        Globales.setUsuarioLogueado(mUsuario);
+        mActivity.startActivity(new Intent(mActivity, ActivityPrincipal.class));
+        mProgressDialog.dismiss();
     }
 
-
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //uiHelper.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_RESOLVE_ERR && resultCode == RESULT_OK) {
-            mConnectionResult = null;
-            mPlusClient.connect();
-        }
-    }
 
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
         if (session != null && session.isOpened()) {
-            Bundle params = new Bundle();
+            new ThreadFacebook().execute(session);
+            /**
+             * Para obtener una imagen mas grande
+             */
+            /*Bundle params = new Bundle();
             params.putBoolean("redirect", false);
             params.putInt("height", 500);
             params.putInt("width", 500);
@@ -204,88 +140,133 @@ public class ActivityLogin extends FragmentActivity  implements ConnectionCallba
                     new Request.Callback() {
                         public void onCompleted(Response response) {
                             GraphObject graphObject = response.getGraphObject();
-
                             try {
                                 JSONObject jsonObject = graphObject.getInnerJSONObject();
                                 String url = jsonObject.getJSONObject("data").getString("url");
-
-                                Picasso.with(ActivityLogin.this).load(url).into(imagen);
+                                Picasso.with(ActivityLogin.this).load(url).get();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
                     }
-            ).executeAsync();
+            ).executeAsync();*/
 
-            Log.d("DEBUG", "facebook session is open ");
-            // make request to the /me API
-            Request.newMeRequest(session, new Request.GraphUserCallback() {
-                // callback after Graph API response with user object
-                @Override
-                public void onCompleted(GraphUser user, Response response) {
-                    if (user != null) {
-                        JSONObject asdf = user.getInnerJSONObject();
-                        Log.d("DEBUG", "email: " + user.asMap().get("email").toString());
-                        Log.d("DEBUG", "id: " + user.asMap().get("id").toString());
-                        Log.d("DEBUG", "first_name: " + user.asMap().get("first_name").toString());
-                        Log.d("DEBUG", "last_name: " + user.asMap().get("last_name").toString());
-                        Log.d("DEBUG", "gender: " + user.asMap().get("gender").toString());
-                        Log.d("DEBUG", "locale: " + user.asMap().get("locale").toString());
+
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        uiHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+    //---------------------------------------------------
+    //-------------------- Hebras -----------------------
+    //---------------------------------------------------
+
+    public class ThreadRegistro extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            mUsuario.setEmail(etEmail.getText().toString());
+
+            mUsuario.setNickname("NickLogin");
+            mProgressDialog.setMessage("Registrando usuario...");
+
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                //TODO Realizar el registro con el servidor
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            finActivity(TipoLogin.registro);
+        }
+    }
+
+    public class ThreadLogin extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            mUsuario.setEmail(etEmail.getText().toString());
+            mUsuario.setNickname(etNickname.getText().toString());
+
+            mProgressDialog.setMessage("Iniciando sesión...");
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                //TODO Realizar el login con el servidor
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            finActivity(TipoLogin.login);
+        }
+    }
+
+    public class ThreadFacebook extends AsyncTask<Session, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog.setMessage("Logueando con Facebook");
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Session... session) {
+
+            new Request(
+                    session[0],
+                    "/me",
+                    null,
+                    HttpMethod.GET,
+                    new Request.Callback() {
+                        public void onCompleted(Response response) {
+                            GraphObject user = response.getGraphObject();;
+                            mUsuario.setEmail(user.asMap().get("email").toString());
+                            mUsuario.setEdad(user.asMap().get("email").toString());
+                            mUsuario.setNombre(user.asMap().get("first_name").toString());
+                            mUsuario.setApellidos(user.asMap().get("last_name").toString());
+                            mUsuario.setSexo(user.asMap().get("gender").toString());
+                            mUsuario.setLocalidad(user.asMap().get("locale").toString());
+
+                            try {
+                                mUsuario.setImagen(Picasso.with(mActivity).load("https://graph.facebook.com/"+user.asMap().get("id").toString()+"/picture?type=large").get());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            //TODO Registrarse con el correo e id
+
+                        }
                     }
-                }
-            }).executeAsync();
-        }
-    }
+            ).executeAndWait();
 
-
-    //-------------------------------------METODOS GOOGLE PLUS----------------------------------
-    @Override
-    public void onConnected(Bundle bundle) {
-        String accountName = mPlusClient.getAccountName();
-        Toast.makeText(this, accountName + " is connected.", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onDisconnected() {
-        Log.d("", "disconnected");
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        if (result.hasResolution()) {
-            try {
-                result.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
-            } catch (IntentSender.SendIntentException e) {
-                mPlusClient.connect();
-            }
-        }
-        // Guarda el resultado y resuelve el fallo de conexión con el clic de un usuario.
-        mConnectionResult = result;
-    }
-    private void googlePlusLogin() {
-
-        if (!mPlusClient.isConnecting()) {
-
-            signedInUser = true;
-
-            resolveSignInError();
-
+            mProgressDialog.dismiss();
+            return null;
         }
 
+        @Override
+        protected void onPostExecute(Void result) {
+            finActivity(TipoLogin.facebook);
+        }
     }
-
-    private void resolveSignInError() {
-        /*if (mConnectionResult.hasResolution()) {
-            try {
-                mIntentInProgress = true;
-                mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
-            } catch (SendIntentException e) {
-                mIntentInProgress = false;
-                mGoogleApiClient.connect();
-            }
-        }*/
-    }
-
 
 
 }

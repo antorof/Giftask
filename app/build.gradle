@@ -2,10 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        debuger {
-            keyAlias 'giftask'
-            keyPassword 'giftask'
-        }
     }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -27,10 +23,9 @@ android {
 repositories { mavenCentral() }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.rengwuxian.materialedittext:library:1.8.3'
-    compile 'com.google.android.gms:play-services:4.0.30'
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
     compile 'com.squareup.picasso:picasso:2.3.2'
 }
