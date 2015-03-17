@@ -69,7 +69,7 @@
     <color name="toolbar_background">@color/LIME_500</color>
 
     <!-- NAVDRAWER -->
-    <color name="navdrawer_background">@color/GREY_100</color>
+    <color name="navdrawer_background">@android:color/white</color>
     <color name="navdrawer_item_seleccionado">@color/LIME_500</color>
     <color name="navdrawer_item_no_seleccionado">@color/GREY_500</color>
 </resources>

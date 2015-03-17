@@ -79,7 +79,7 @@ public class ActivityLogin extends FragmentActivity {
     public void pulsarRegistrar(Button button){
         etNickname.setVisibility(View.VISIBLE);
         btRegistrar.setVisibility(View.INVISIBLE);
-        mModoRegistrar = true;
+        mModoRegistrar = !mModoRegistrar;
     }
 
     @OnClick(R.id.btActivityLogin_conectar)
