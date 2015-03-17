@@ -1,4 +1,4 @@
-package Utils;
+package es.trigit.gitftask.Utiles;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -35,18 +35,7 @@
         android:layout_height="wrap_content"
         android:text="Conectar"
         android:textStyle="bold"
-        android:layout_below="@+id/btActivityLogin_registrar"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:id="@+id/btActivityLogin_registrar"
-        style="?android:textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Registrarse"
-        android:textStyle="bold"
-        android:layout_alignBottom="@+id/etActivityLogin_nickname"
+        android:layout_below="@+id/etActivityLogin_nickname"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -86,6 +75,17 @@
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/btActivityLogin_conectar"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btActivityLogin_registrar"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registrarse"
+        android:textStyle="bold"
+        android:layout_below="@+id/etActivityLogin_password"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
 
