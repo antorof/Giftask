@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -23,6 +23,9 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.Arrays;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 import es.trigit.gitftask.Objetos.Usuario;
 import es.trigit.gitftask.R;
 import es.trigit.gitftask.Utiles.Globales;
@@ -32,71 +35,65 @@ public class ActivityLogin extends FragmentActivity {
     private enum TipoLogin{login, registro, facebook}
 
     private ProgressDialog mProgressDialog;
-    private MaterialEditText etEmail, etPassword, etNickname;
-    private View btConectar, btRegistrar;
     private boolean mModoRegistrar;
     private Usuario mUsuario;
     private Activity mActivity;
+
+    @InjectView(R.id.etActivityLogin_email)  MaterialEditText etEmail;
+    @InjectView(R.id.etActivityLogin_nickname)  MaterialEditText etNickname;
+    @InjectView(R.id.etActivityLogin_password)  MaterialEditText etPassword;
+    @InjectView(R.id.btActivityLogin_facebook)  LoginButton btLoginFacebook;
+    @InjectView(R.id.btActivityLogin_registrar)  Button btRegistrar;
+    @InjectView(R.id.btActivityLogin_conectar)  Button btConectar;
 
 
     /**
      * Variables para el login de Facebook
      */
-    private LoginButton btLoginFacebook;
     private UiLifecycleHelper uiHelper;
-    private Session.StatusCallback callback = new Session.StatusCallback() {
-        @Override
-        public void call(Session session, SessionState state, Exception exception) {
-            onSessionStateChange(session, state, exception);
-        }
-    };
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.inject(this);
         mActivity = this;
 
-        uiHelper = new UiLifecycleHelper(this, callback);
+        uiHelper = new UiLifecycleHelper(this, new Session.StatusCallback() {
+            @Override
+            public void call(Session session, SessionState sessionState, Exception e) {
+                onSessionStateChange(session, sessionState, e);
+            }
+        });
         uiHelper.onCreate(savedInstanceState);
-        btLoginFacebook = (LoginButton) this.findViewById(R.id.btActivityLogin_facebook);
-        btLoginFacebook.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_about_me"));
-        etEmail = (MaterialEditText) this.findViewById(R.id.etActivityLogin_email);
-        etPassword = (MaterialEditText) this.findViewById(R.id.etActivityLogin_password);
-        etNickname = (MaterialEditText) this.findViewById(R.id.etActivityLogin_nickname);
-        btConectar = findViewById(R.id.btActivityLogin_conectar);
-        btRegistrar = findViewById(R.id.btActivityLogin_registrar);
+
+        btLoginFacebook.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday"));
 
         mModoRegistrar = false;
         mUsuario = new Usuario();
         mProgressDialog = new ProgressDialog(this);
         etNickname.setVisibility(View.INVISIBLE);
-
-        btRegistrar.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etNickname.setVisibility(View.VISIBLE);
-                btRegistrar.setVisibility(View.INVISIBLE);
-                mModoRegistrar = true;
-            }
-        });
-
-        btConectar.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mModoRegistrar) {
-                    new ThreadRegistro().execute();
-
-                } else {
-                    new ThreadLogin().execute();
-
-                }
-            }
-        });
-
+    }
+    @OnClick(R.id.btActivityLogin_registrar)
+    public void pulsarRegistrar(Button button){
+        etNickname.setVisibility(View.VISIBLE);
+        btRegistrar.setVisibility(View.INVISIBLE);
+        mModoRegistrar = true;
     }
 
+    @OnClick(R.id.btActivityLogin_conectar)
+    public void pulsarConectar(Button button){
+        if (mModoRegistrar) {
+            new ThreadRegistro().execute();
+
+        } else {
+            new ThreadLogin().execute();
+
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if (!mModoRegistrar) {
             super.onBackPressed();
@@ -123,36 +120,6 @@ public class ActivityLogin extends FragmentActivity {
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
         if (session != null && session.isOpened()) {
             new ThreadFacebook().execute(session);
-            /**
-             * Para obtener una imagen mas grande
-             */
-            /*Bundle params = new Bundle();
-            params.putBoolean("redirect", false);
-            params.putInt("height", 500);
-            params.putInt("width", 500);
-            params.putString("type", "large");
-
-            new Request(
-                    session,
-                    "/me/picture",
-                    params,
-                    HttpMethod.GET,
-                    new Request.Callback() {
-                        public void onCompleted(Response response) {
-                            GraphObject graphObject = response.getGraphObject();
-                            try {
-                                JSONObject jsonObject = graphObject.getInnerJSONObject();
-                                String url = jsonObject.getJSONObject("data").getString("url");
-                                Picasso.with(ActivityLogin.this).load(url).get();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-            ).executeAsync();*/
-
-
-
         }
     }
 
