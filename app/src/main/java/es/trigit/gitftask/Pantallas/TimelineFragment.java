@@ -59,7 +59,7 @@ public class TimelineFragment extends Fragment
 
         public CustomGridViewAdapter(Context context, ArrayList<String> values)
         {
-            super(context, R.layout.grid_item_gift, values);
+            super(context, R.layout.row_timeline, values);
             this.context = context;
         }
 
@@ -67,7 +67,7 @@ public class TimelineFragment extends Fragment
         public View getView(final int position, View convertView, ViewGroup parent)
         {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View itemView = inflater.inflate(R.layout.grid_item_gift, parent, false);
+            View itemView = inflater.inflate(R.layout.row_timeline, parent, false);
 
             TextView nombreUsuario = (TextView) itemView.findViewById(R.id.gift_subheader_name);
             nombreUsuario.setText(data.get(position));
