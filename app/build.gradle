@@ -29,4 +29,6 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.jakewharton:butterknife:5.1.1'
+    compile 'com.google.guava:guava:16.0.1'
+    compile 'com.nineoldandroids:library:2.4.0'
 }
