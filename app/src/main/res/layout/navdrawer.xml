@@ -1,5 +1,121 @@
 <merge  xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
+        android:id="@+id/drawer_wrapper"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="140dp"
+        android:background="@drawable/nav_drawer_background"
+        android:gravity="top"
+        android:paddingLeft="16dp"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:id="@+id/nav_drawer_image_user"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_launcher"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="15dp" />
+
+        <TextView
+            android:text="Nombre Usuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end|center_vertical"
+            android:layout_toRightOf="@+id/nav_drawer_image_user"
+            android:layout_gravity="bottom"
+            android:textSize="20sp"
+            android:paddingLeft="8dp"
+            android:paddingTop="25dp"
+            android:textColor="@android:color/white"
+            android:id="@+id/textView" />
+        
+        <LinearLayout
+            android:id="@+id/nav_drawer_user_layout_titles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nav_drawer_image_user"
+            android:paddingTop="20dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nav_drawer_title_gifts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/navdrawer_user_gifts"
+                    style="@style/NavDrawerTitleText"/>
+
+                <TextView
+                    android:id="@+id/nav_drawer_subtitle_gifts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23"
+                    style="@style/NavDrawerSubtitleText"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nav_drawer_title_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/navdrawer_user_followings"
+                    style="@style/NavDrawerTitleText"/>
+
+                <TextView
+                    android:id="@+id/nav_drawer_subtitle_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="45"
+                    style="@style/NavDrawerSubtitleText"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingRight="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nav_drawer_title_followers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/navdrawer_user_followers"
+                    style="@style/NavDrawerTitleText"/>
+
+                <TextView
+                    android:id="@+id/nav_drawer_subtitle_followers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="56"
+                    style="@style/NavDrawerSubtitleText"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    <LinearLayout
         android:id="@+id/navdrawer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -8,4 +124,5 @@
         android:choiceMode="singleChoice"
         android:paddingTop="8dp"
         android:orientation="vertical" />
+</LinearLayout>
 </merge>

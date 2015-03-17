@@ -8,9 +8,24 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowSoftInputMode">stateHidden</item>
 
-        <item name="colorPrimary">@color/toolbar_background</item>
+
+    </style>
+
+    <!--
+     <item name="colorPrimary">@color/toolbar_background</item>
         <item name="colorPrimaryDark">@color/LIME_700</item>
         <item name="colorAccent">#e040fb</item>
+     -->
+
+    <style name="NavDrawerTitleText" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="NavDrawerSubtitleText" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>
