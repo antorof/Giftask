@@ -13,7 +13,8 @@
         android:background="@drawable/nav_drawer_background"
         android:gravity="top"
         android:paddingLeft="16dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:id="@+id/rlNavDrawer_cabecera">
 
         <ImageView
             android:id="@+id/nav_drawer_image_user"
