@@ -218,6 +218,10 @@ public class ActivityPrincipal extends ActionBarActivity
             // TODO: añadir lo de accesibilidad
             return view;
         }
+        else
+        {
+            view.setBackgroundResource(R.drawable.drawer_item_selector);
+        }
 
         ImageView iconoView = (ImageView) view.findViewById(R.id.icono);
         TextView tituloView = (TextView) view.findViewById(R.id.titulo);
