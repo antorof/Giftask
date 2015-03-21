@@ -148,7 +148,7 @@ public class ActivityLogin extends FragmentActivity {
         protected Void doInBackground(Void... params) {
             try {
                 //TODO Realizar el registro con el servidor
-                Thread.sleep(2000);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -175,7 +175,7 @@ public class ActivityLogin extends FragmentActivity {
         protected Void doInBackground(Void... params) {
             try {
                 //TODO Realizar el login con el servidor
-                Thread.sleep(2000);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -208,8 +208,7 @@ public class ActivityLogin extends FragmentActivity {
                             GraphObject user = response.getGraphObject();;
                             mUsuario.setEmail(user.asMap().get("email").toString());
                             mUsuario.setEdad(user.asMap().get("email").toString());
-                            mUsuario.setNombre(user.asMap().get("first_name").toString());
-                            mUsuario.setApellidos(user.asMap().get("last_name").toString());
+                            mUsuario.setNombre(user.asMap().get("first_name").toString()+" "+user.asMap().get("last_name").toString());
                             mUsuario.setSexo(user.asMap().get("gender").toString());
                             mUsuario.setLocalidad(user.asMap().get("locale").toString());
 

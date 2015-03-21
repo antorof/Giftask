@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import es.trigit.gitftask.R;
 
 
@@ -56,7 +58,7 @@ public class ActivityPrincipal extends ActionBarActivity
     /**
      * Enumerado con los items del Navdrawer
      */
-    private static enum NAVDRAWER_ITEM {TIMELINE, MIS_REGALOS, LO_TENGO, DISCOVER, AJUSTES, ABOUT, CERRAR, SEPARADOR};
+    private static enum NAVDRAWER_ITEM {TIMELINE, MIS_REGALOS, LO_TENGO, DISCOVER, AJUSTES, ABOUT, CERRAR, SEPARADOR,CABECERA};
 
     /**
      * Títulos de los posibles items del NavDrawer,
@@ -90,6 +92,7 @@ public class ActivityPrincipal extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
+        ButterKnife.inject(this);
 
          mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -125,6 +128,12 @@ public class ActivityPrincipal extends ActionBarActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.rlNavDrawer_cabecera)
+    public void pulsarCabecera(){
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
+        sustituirFragment(NAVDRAWER_ITEM.CABECERA);
     }
 
     /**
@@ -291,8 +300,13 @@ public class ActivityPrincipal extends ActionBarActivity
             case TIMELINE:
                 ft.replace(R.id.contenedor, TimelineFragment.newInstance());
                 break;
+
             case DISCOVER:
                 ft.replace(R.id.contenedor, DiscoverFragment.newInstance());
+                break;
+
+            case CABECERA:
+                ft.replace(R.id.contenedor, EditarPerfilFragment.newInstance());
                 break;
         }
 
