@@ -40,11 +40,11 @@
                     android:src="@drawable/ic_favorite_white"/>
 
                 <TextView
+                    android:id="@+id/gift_numero_me_gustas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@android:color/white"
-                    android:text="16"/>
+                    android:textColor="@android:color/white"/>
 
             </LinearLayout>
         </RelativeLayout>
@@ -56,7 +56,7 @@
             android:background="@android:color/white">
 
             <ImageView
-                android:id="@+id/gift_subheader_image"
+                android:id="@+id/gift_usuario_imagen"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginRight="3dp"
@@ -64,21 +64,19 @@
                 android:layout_alignParentTop="true"/>
 
             <TextView
-                android:id="@+id/gift_subheader_user"
+                android:id="@+id/gift_usuario_nombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/gift_subheader_image"
-                android:textSize="12sp"
-                android:text="Pepe"/>
+                android:layout_toRightOf="@+id/gift_usuario_imagen"
+                android:textSize="12sp"/>
 
             <TextView
-                android:id="@+id/gift_subheader_name"
+                android:id="@+id/gift_nombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/gift_subheader_image"
-                android:layout_alignBottom="@+id/gift_subheader_image"
-                android:textSize="13sp"
-                android:text="Canon RX"/>
+                android:layout_toRightOf="@+id/gift_usuario_imagen"
+                android:layout_alignBottom="@+id/gift_usuario_imagen"
+                android:textSize="13sp"/>
 
         </RelativeLayout>
 
