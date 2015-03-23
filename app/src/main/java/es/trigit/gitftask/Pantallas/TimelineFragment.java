@@ -2,6 +2,7 @@ package es.trigit.gitftask.Pantallas;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnItemClick;
 import es.trigit.gitftask.Objetos.Regalo;
 import es.trigit.gitftask.Objetos.Usuario;
 import es.trigit.gitftask.R;
@@ -33,6 +35,8 @@ import es.trigit.gitftask.R;
 public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
 {
     private final String TAG = "Fragment Timeline";
+
+    private final int DELAY_REFRESH_ITEMS = 5000;
 
     @InjectView(R.id.timeline_grid) GridView mGridView;
     @InjectView(R.id.timeline_swipe_container) SwipeRefreshLayout mSwipeLayout;
@@ -55,15 +59,30 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
     {
         ButterKnife.inject(this, view);
 
-        mDatos = crearDatosTesting(25);
+        mDatos = crearDatosTesting(20);
 
         mAdapter = new CustomGridViewAdapter(getActivity(), mDatos);
         mGridView.setAdapter(mAdapter);
 
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-            android.R.color.holo_green_light, android.R.color.holo_orange_light,
-            android.R.color.holo_red_light);
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+    }
+
+    /**
+     * Se ejecuta trás pulsar sobre un elemento del GridView.
+     * Se llama a la actividad {@link es.trigit.gitftask.Pantallas.GiftDetalleActivity}
+     * enviándole la ID del regalo para que muestre el Regalo
+     * que sobre el que se ha pulsado.
+     * @param position Posición del item pulsado en el GridView.
+     */
+    @OnItemClick(R.id.timeline_grid)
+    public void pulsarItemGrid(int position)
+    {
+        // TODO: enviar ID del regalo para cargarlo en la actividad detalle
+        Intent intent = new Intent(getActivity(), GiftDetalleActivity.class);
+        startActivity(intent);
     }
 
     public void onRefresh()
@@ -75,7 +94,7 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
                 mAdapter.remove(mDatos.get(2));
                 mSwipeLayout.setRefreshing(false);
             }
-        }, 5000);
+        }, DELAY_REFRESH_ITEMS);
     }
 
     /**
@@ -119,6 +138,8 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
     private ArrayList<Regalo> crearDatosTesting(int numeroEntradas)
     {
         ArrayList<Regalo> datos = new ArrayList<Regalo>();
+        Bitmap bMap1 = BitmapFactory.decodeResource(getResources(), R.drawable.sloth);
+        Bitmap bMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.nav_drawer_background);
 
         for(int i=0; i<numeroEntradas; i++)
         {
@@ -129,12 +150,8 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
             r.setUsuarioPropietario(u);
             Random random = new Random();
             r.setNumLikes(random.nextInt(50));
-            Bitmap bMap;
-            if(random.nextInt(2) == 0)
-                bMap = BitmapFactory.decodeResource(getResources(), R.drawable.sloth);
-            else
-                bMap = BitmapFactory.decodeResource(getResources(), R.drawable.nav_drawer_background);
 
+            Bitmap bMap = random.nextInt(2) == 0 ? bMap1 : bMap2;
             r.setImagen(bMap);
 
             datos.add(r);
