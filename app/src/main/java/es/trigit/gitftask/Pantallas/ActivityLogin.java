@@ -7,7 +7,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -17,6 +19,10 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 import com.facebook.widget.LoginButton;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.ValueAnimator;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
 
@@ -39,6 +45,10 @@ public class ActivityLogin extends FragmentActivity {
     private Usuario mUsuario;
     private Activity mActivity;
 
+    @InjectView(R.id.panelSuperior)  View panelSuperior;
+    @InjectView(R.id.drwRegalo)  View drwRegalo;
+    @InjectView(R.id.progress) CircularProgressView progress;
+    @InjectView(R.id.tvGiftask) TextView tvGiftask;
     @InjectView(R.id.etActivityLogin_email)  MaterialEditText etEmail;
     @InjectView(R.id.etActivityLogin_nickname)  MaterialEditText etNickname;
     @InjectView(R.id.etActivityLogin_password)  MaterialEditText etPassword;
@@ -74,6 +84,7 @@ public class ActivityLogin extends FragmentActivity {
         mUsuario = new Usuario();
         mProgressDialog = new ProgressDialog(this);
         etNickname.setVisibility(View.INVISIBLE);
+
     }
     @OnClick(R.id.btActivityLogin_registrar)
     public void pulsarRegistrar(Button button){
@@ -129,6 +140,34 @@ public class ActivityLogin extends FragmentActivity {
         uiHelper.onActivityResult(requestCode, resultCode, data);
     }
 
+    private void muestraCargando() {
+        ValueAnimator anim = ValueAnimator.ofInt(panelSuperior.getMeasuredHeight(), 1600);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = panelSuperior.getLayoutParams();
+                layoutParams.height = val;
+                panelSuperior.setLayoutParams(layoutParams);
+            }
+        });
+        anim.setDuration(500);
+        anim.start();
+
+        progress.setVisibility(View.VISIBLE);
+        tvGiftask.setVisibility(View.VISIBLE);
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(
+                ObjectAnimator.ofFloat(drwRegalo, "scaleX", 1, 2f),
+                ObjectAnimator.ofFloat(drwRegalo, "scaleY", 1, 2f),
+                ObjectAnimator.ofFloat(drwRegalo, "translationY", 0, 260),
+                ObjectAnimator.ofFloat(progress, "translationY", 0, 360)//,
+//                ObjectAnimator.ofFloat(drwRegalo, "translationX", 0, 90)
+        );
+        set.setDuration(1 * 500).start();
+    }
+
     //---------------------------------------------------
     //-------------------- Hebras -----------------------
     //---------------------------------------------------
@@ -136,19 +175,21 @@ public class ActivityLogin extends FragmentActivity {
     public class ThreadRegistro extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
+            muestraCargando();
+
             mUsuario.setEmail(etEmail.getText().toString());
 
             mUsuario.setNickname("NickLogin");
             mProgressDialog.setMessage("Registrando usuario...");
 
-            mProgressDialog.show();
+//            mProgressDialog.show();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
             try {
                 //TODO Realizar el registro con el servidor
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -164,18 +205,19 @@ public class ActivityLogin extends FragmentActivity {
     public class ThreadLogin extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
+            muestraCargando();
             mUsuario.setEmail(etEmail.getText().toString());
             mUsuario.setNickname(etNickname.getText().toString());
 
             mProgressDialog.setMessage("Iniciando sesión...");
-            mProgressDialog.show();
+//            mProgressDialog.show();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
             try {
                 //TODO Realizar el login con el servidor
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

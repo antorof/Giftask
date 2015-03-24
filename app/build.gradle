@@ -33,4 +33,5 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.+'
     compile 'com.google.guava:guava:16.0.1'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.github.rahatarmanahmed:circularprogressview:2.0.0'
 }
