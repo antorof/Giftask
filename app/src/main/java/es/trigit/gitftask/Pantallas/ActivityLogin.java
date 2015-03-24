@@ -249,7 +249,7 @@ public class ActivityLogin extends FragmentActivity {
                         public void onCompleted(Response response) {
                             GraphObject user = response.getGraphObject();;
                             mUsuario.setEmail(user.asMap().get("email").toString());
-                            mUsuario.setEdad(user.asMap().get("email").toString());
+                            mUsuario.setFechaCumpleano(user.asMap().get("birthday").toString());
                             mUsuario.setNombre(user.asMap().get("first_name").toString()+" "+user.asMap().get("last_name").toString());
                             mUsuario.setSexo(user.asMap().get("gender").toString());
                             mUsuario.setLocalidad(user.asMap().get("locale").toString());
