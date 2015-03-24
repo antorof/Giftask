@@ -1,66 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <es.trigit.gitftask.Utiles.ImageViewCuadrada
-        android:id="@+id/gift_detalle_imagen"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/sloth"/>
-
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="@color/GREY_500"
-        android:orientation="horizontal">
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/transparente"
-                android:paddingLeft="@dimen/button_padding_horizontal_material"
-                android:src="@drawable/abc_ic_voice_search_api_mtrl_alpha"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/transparente"
-                android:paddingLeft="@dimen/button_padding_horizontal_material"
-                android:src="@drawable/ic_favorite_white"/>
+            <es.trigit.gitftask.Utiles.ImageViewCuadrada
+                android:id="@+id/gift_detalle_imagen"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scaleType="fitXY"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/sloth"/>
+
+            <!--  BARRA DE BOTONES   -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:background="#55000000"
+                android:orientation="horizontal"
+                android:layout_alignBottom="@+id/gift_detalle_imagen">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@color/transparente"
+                    android:src="@drawable/ic_repost_white"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1">
+
+                    <ImageButton
+                        android:id="@+id/gift_detalle_boton_me_gusta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_centerInParent="true"
+                        android:background="@color/transparente"
+                        android:src="@drawable/ic_favorite_white"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/gift_detalle_boton_me_gusta"
+                        style="@style/NavDrawerSubtitleText"
+                        android:text="16"/>
+
+                </RelativeLayout>
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@color/transparente"
+                    android:src="@drawable/ic_lotengo_white"/>
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@color/transparente"
+                    android:src="@drawable/abc_ic_menu_share_mtrl_alpha"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+<!--
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
+
+            <ImageView
+                android:id="@+id/gift_usuario_imagen"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:src="@drawable/borrar_persona_ejemplo"
+                android:layout_alignParentTop="true"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/gift_usuario_nombre"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/NavDrawerSubtitleText"
-                android:text="16"/>
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/transparente"
-                android:paddingLeft="@dimen/button_padding_horizontal_material"
-                android:src="@drawable/ic_favorite_white"/>
+                android:layout_toRightOf="@+id/gift_usuario_imagen"
+                android:paddingTop="16dp"
+                android:text="Perezoso tope molón"
+                android:textSize="20sp"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/gift_nombre"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/NavDrawerSubtitleText"
-                android:text="16"/>
+                android:layout_toRightOf="@+id/gift_usuario_imagen"
+                android:layout_below="@+id/gift_usuario_nombre"
+                android:text="David González Sola"
+                android:textSize="16sp"/>
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/transparente"
-                android:paddingLeft="@dimen/button_padding_horizontal_material"
-                android:src="@drawable/abc_ic_menu_share_mtrl_alpha"/>
+        </RelativeLayout>
 
+        <View android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gris100" />
+-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:src="@drawable/borrar_persona_ejemplo"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="David González Sola"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/gris500"/>
+
+            </LinearLayout>
+
+            <View android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="72dp"
+                android:background="@color/gris100" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginLeft="16dp"
+                    android:tint="@color/LIME_500"
+                    android:src="@drawable/ic_gift_titulo"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Perezoso tope molón"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/gris500"/>
+
+            </LinearLayout>
+
+            <View android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="72dp"
+                android:background="@color/gris100" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginLeft="16dp"
+                    android:tint="@color/LIME_500"
+                    android:src="@drawable/ic_gift_direccion"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="C/ Maria Caca La Caramba"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/gris500"/>
+
+            </LinearLayout>
+
+            <View android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="72dp"
+                android:background="@color/gris100" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginLeft="16dp"
+                    android:tint="@color/LIME_500"
+                    android:src="@drawable/ic_gift_price"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="56 €"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/gris500"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
