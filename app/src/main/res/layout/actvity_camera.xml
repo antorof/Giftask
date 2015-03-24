@@ -8,5 +8,59 @@
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        >
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:background="@color/transparenciaCamera"
+            android:id="@+id/llActivityCamera_top"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Giftask"
+                android:id="@+id/textView3"
+                android:gravity="center_horizontal"
+                android:textColor="@color/blanco" />
+
+        </LinearLayout>
+
+        <es.trigit.gitftask.Vistas.SquareSpace
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:id="@+id/space"/>
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:background="@color/transparenciaCamera"
+            android:id="@+id/linearLayout2"
+            android:layout_alignLeft="@+id/camera_preview"
+            android:layout_alignBottom="@+id/camera_preview"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Foto"
+                android:id="@+id/btActivityCamera_boton"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
 </RelativeLayout>
