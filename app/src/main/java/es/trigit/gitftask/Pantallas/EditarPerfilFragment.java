@@ -16,7 +16,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import es.trigit.gitftask.Dialog.DatePickerFragment;
+import es.trigit.gitftask.Vistas.DatePickerFragment;
 import es.trigit.gitftask.R;
 import es.trigit.gitftask.Utiles.Globales;
 

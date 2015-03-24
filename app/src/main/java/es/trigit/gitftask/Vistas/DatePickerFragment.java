@@ -1,4 +1,4 @@
-package es.trigit.gitftask.Dialog;
+package es.trigit.gitftask.Vistas;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
