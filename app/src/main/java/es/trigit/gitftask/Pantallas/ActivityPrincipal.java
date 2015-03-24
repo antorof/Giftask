@@ -23,8 +23,7 @@ import butterknife.OnClick;
 import es.trigit.gitftask.R;
 
 
-public class ActivityPrincipal extends ActionBarActivity
-{
+public class ActivityPrincipal extends ActionBarActivity {
     private final String TAG = "Activity Principal";
 
     /**
@@ -58,8 +57,17 @@ public class ActivityPrincipal extends ActionBarActivity
     /**
      * Enumerado con los items del Navdrawer
      */
-    private static enum NAVDRAWER_ITEM {TIMELINE, MIS_REGALOS, LO_TENGO, DISCOVER, AJUSTES, ABOUT, CERRAR, SEPARADOR,CABECERA};
+    private static enum NAVDRAWER_ITEM {
+        TIMELINE, MIS_REGALOS, LO_TENGO, DISCOVER, AJUSTES, ABOUT, CERRAR, SEPARADOR, CABECERA
+    }
 
+    ;
+
+    /**
+     * Indica que fragmen esta activo
+     */
+
+    private NAVDRAWER_ITEM fragmentActivo;
     /**
      * Títulos de los posibles items del NavDrawer,
      * los índices deben corresponder con los de la lista superior
@@ -94,7 +102,7 @@ public class ActivityPrincipal extends ActionBarActivity
         setContentView(R.layout.activity_principal);
         ButterKnife.inject(this);
 
-         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
@@ -112,6 +120,7 @@ public class ActivityPrincipal extends ActionBarActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 
@@ -131,7 +140,7 @@ public class ActivityPrincipal extends ActionBarActivity
     }
 
     @OnClick(R.id.rlNavDrawer_cabecera)
-    public void pulsarCabecera(){
+    public void pulsarCabecera() {
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         sustituirFragment(NAVDRAWER_ITEM.CABECERA);
     }
@@ -160,8 +169,7 @@ public class ActivityPrincipal extends ActionBarActivity
     /**
      * Rellena el NavDrawer con la lista de items correspondientes
      */
-    private void rellenarNavDrawer()
-    {
+    private void rellenarNavDrawer() {
         mNavDrawerItems.clear();
 
         mNavDrawerItems.add(NAVDRAWER_ITEM.TIMELINE);
@@ -180,8 +188,7 @@ public class ActivityPrincipal extends ActionBarActivity
     /**
      * Crea los items del NavDrawer
      */
-    private void crearItemsNavDrawer()
-    {
+    private void crearItemsNavDrawer() {
         mDrawerItemListContainer = (ViewGroup) findViewById(R.id.navdrawer);
         if (mDrawerItemListContainer == null)
             return;
@@ -190,8 +197,7 @@ public class ActivityPrincipal extends ActionBarActivity
         mDrawerItemListContainer.removeAllViews();
 
         int i = 0;
-        for (NAVDRAWER_ITEM navItem : mNavDrawerItems)
-        {
+        for (NAVDRAWER_ITEM navItem : mNavDrawerItems) {
             mNavDrawerItemViews[i] = crearNavDrawerItem(navItem, mDrawerItemListContainer);
             mDrawerItemListContainer.addView(mNavDrawerItemViews[i]);
             i++;
@@ -201,25 +207,22 @@ public class ActivityPrincipal extends ActionBarActivity
 
     /**
      * Crea un item del NavDrawer
-     * @param navItem Item a crear
+     *
+     * @param navItem   Item a crear
      * @param container Contenedor de los NavDrawer
      * @return View del item creado
      */
-    private View crearNavDrawerItem(final NAVDRAWER_ITEM navItem, final ViewGroup container)
-    {
+    private View crearNavDrawerItem(final NAVDRAWER_ITEM navItem, final ViewGroup container) {
         int layoutToInflate = 0;
 
         layoutToInflate = navItem == NAVDRAWER_ITEM.SEPARADOR ? R.layout.navdrawer_separador : R.layout.navdrawer_item;
 
         View view = getLayoutInflater().inflate(layoutToInflate, container, false);
 
-        if(navItem == NAVDRAWER_ITEM.SEPARADOR)
-        {
+        if (navItem == NAVDRAWER_ITEM.SEPARADOR) {
             // TODO: añadir lo de accesibilidad
             return view;
-        }
-        else
-        {
+        } else {
             view.setBackgroundResource(R.drawable.drawer_item_selector);
         }
 
@@ -229,17 +232,14 @@ public class ActivityPrincipal extends ActionBarActivity
         iconoView.setImageResource(NAVDRAWER_ICON_RES_ID[navItem.ordinal()]);
         tituloView.setText(getString(NAVDRAWER_TITLE_RES_ID[navItem.ordinal()]));
 
-        view.setOnClickListener(new View.OnClickListener()
-        {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 navDrawerItemActivo = navItem;
                 getSupportActionBar().setTitle(NAVDRAWER_TITLE_RES_ID[navItem.ordinal()]);
                 formatearColorItemsNavDrawer(container);
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
-                switch(navItem)
-                {
+                switch (navItem) {
                     case TIMELINE:
                         sustituirFragment(NAVDRAWER_ITEM.TIMELINE);
                         Log.v("Navdrawer", "Seleccionado TIMELINE");
@@ -262,13 +262,10 @@ public class ActivityPrincipal extends ActionBarActivity
      * Formatea el color de todos los items del NavDrawer
      * dependiendo de si están seleccionados o no
      */
-    private void formatearColorItemsNavDrawer(ViewGroup container)
-    {
+    private void formatearColorItemsNavDrawer(ViewGroup container) {
         int i = 0;
-        for(NAVDRAWER_ITEM navItem : mNavDrawerItems)
-        {
-            if(navItem != NAVDRAWER_ITEM.SEPARADOR)
-            {
+        for (NAVDRAWER_ITEM navItem : mNavDrawerItems) {
+            if (navItem != NAVDRAWER_ITEM.SEPARADOR) {
                 View view = container.getChildAt(i);
                 ImageView iconoView = (ImageView) view.findViewById(R.id.icono);
                 TextView tituloView = (TextView) view.findViewById(R.id.titulo);
@@ -288,15 +285,14 @@ public class ActivityPrincipal extends ActionBarActivity
 
     /**
      * Sustituye el fragment actual por uno nuevo mediante una animación
+     *
      * @param fragmentTarget Fragment al que navegar
      */
-    private void sustituirFragment(NAVDRAWER_ITEM fragmentTarget)
-    {
+    private void sustituirFragment(NAVDRAWER_ITEM fragmentTarget) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
 
-        switch(fragmentTarget)
-        {
+        switch (fragmentTarget) {
             case TIMELINE:
                 ft.replace(R.id.contenedor, TimelineFragment.newInstance());
                 break;
@@ -309,6 +305,8 @@ public class ActivityPrincipal extends ActionBarActivity
                 ft.replace(R.id.contenedor, EditarPerfilFragment.newInstance());
                 break;
         }
+
+        fragmentActivo = fragmentTarget;
 
         ft.commit();
     }

@@ -19,6 +19,15 @@
             android:layout_height="fill_parent">
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/etFragmentEditarPerfil_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nickname"
+                android:maxLines="1"
+                android:singleLine="true"
+                app:floatingLabel="highlight"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/etFragmentEditarPerfil_nombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,6 +44,50 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 app:floatingLabel="highlight"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/etFragmentEditarPerfil_cumpleanos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fecha de cumpleaños"
+                android:maxLines="1"
+                android:singleLine="true"
+                app:floatingLabel="highlight"
+                android:clickable="true"
+                android:editable="false"
+                android:focusable="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Sexo"
+                android:id="@+id/textView2"
+                android:textSize="12dp"
+                android:textColor="@color/accent" />
+
+            <RadioGroup
+                android:id="@+id/rbFragmentEditarPerfil_sexo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rdFragmentEditarPerfil_hombre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hombre"
+                    android:checked="true"
+                    android:layout_marginRight="16dp" />
+
+                <RadioButton
+                    android:id="@+id/rdFragmentEditarPerfil_Mujer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mujer" />
+
+            </RadioGroup>
+
         </LinearLayout>
     </ScrollView>
 

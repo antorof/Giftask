@@ -11,8 +11,9 @@ public class Usuario {
     private String nickname;
     private String nombre;
     private String sexo;
+    private boolean isMale=true;
     private String localidad;
-    private String edad;
+    private String fechaCumpleanos;
     private Bitmap imagen;
 
     public int getId() {
@@ -63,12 +64,20 @@ public class Usuario {
         this.localidad = localidad;
     }
 
-    public String getEdad() {
-        return edad;
+    public String getFechaCumpleanos() {
+        return fechaCumpleanos;
     }
 
-    public void setEdad(String edad) {
-        this.edad = edad;
+    public void setFechaCumpleano(String fechaCumpleanos) {
+        this.fechaCumpleanos = fechaCumpleanos;
+    }
+
+    public void setSexo(boolean isMale){
+        this.isMale = isMale;
+    }
+
+    public boolean isMale(){
+        return isMale;
     }
 
     public Bitmap getImagen() {
