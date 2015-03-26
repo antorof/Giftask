@@ -25,6 +25,7 @@ import butterknife.OnItemClick;
 import es.trigit.gitftask.Objetos.Regalo;
 import es.trigit.gitftask.Objetos.Usuario;
 import es.trigit.gitftask.R;
+import es.trigit.gitftask.Utiles.Globales;
 
 /**
  * Fragment que representa la funcionalidad del Timeline.
@@ -59,7 +60,8 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
     {
         ButterKnife.inject(this, view);
 
-        mDatos = crearDatosTesting(20);
+        Globales.iniciarDatos(getActivity());
+        mDatos = Globales.getRegalos();
 
         mAdapter = new CustomGridViewAdapter(getActivity(), mDatos);
         mGridView.setAdapter(mAdapter);
@@ -82,6 +84,7 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
     {
         // TODO: enviar ID del regalo para cargarlo en la actividad detalle
         Intent intent = new Intent(getActivity(), GiftDetalleActivity.class);
+        intent.putExtra("REGALO_ID", mAdapter.getItem(position).getId());
         startActivity(intent);
     }
 

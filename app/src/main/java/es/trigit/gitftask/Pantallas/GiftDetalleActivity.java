@@ -11,9 +11,17 @@ import es.trigit.gitftask.R;
  * Created by DavidGSola on 22/03/2015.
  */
 public class GiftDetalleActivity extends ActivityPrincipal {
+
+    private final String TAG = "ACTIVITY DETALLE REGALO";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int idRegalo = -1;
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null)
+            idRegalo = extras.getInt("REGALO_ID");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_close);
@@ -29,8 +37,13 @@ public class GiftDetalleActivity extends ActivityPrincipal {
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
+        Bundle bundle = new Bundle();
+        bundle.putInt("REGALO_ID", idRegalo);
+        GiftDetalleFragment f = GiftDetalleFragment.newInstance();
+        f.setArguments(bundle);
+
         getFragmentManager().beginTransaction()
-                .replace(R.id.contenedor, GiftDetalleFragment.newInstance())
+                .replace(R.id.contenedor, f)
                 .commit();
     }
 
