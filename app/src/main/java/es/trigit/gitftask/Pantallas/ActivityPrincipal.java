@@ -13,18 +13,30 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import butterknife.OnClick;
 import es.trigit.gitftask.R;
 
 
 public class ActivityPrincipal extends ActionBarActivity {
     private final String TAG = "Activity Principal";
+
+    private final int ANIMATION_TIME = 200;
+
+    @InjectView(R.id.boton_flotante)
+    ImageButton mBotonFlotante;
+
+    @InjectView(R.id.boton_flotante_galeria)
+    ImageButton mBotonFlotanteGaleria;
 
     /**
      * NavDrawer
@@ -59,9 +71,7 @@ public class ActivityPrincipal extends ActionBarActivity {
      */
     private static enum NAVDRAWER_ITEM {
         TIMELINE, MIS_REGALOS, LO_TENGO, DISCOVER, AJUSTES, ABOUT, CERRAR, SEPARADOR, CABECERA
-    }
-
-    ;
+    };
 
     /**
      * Indica que fragmen esta activo
@@ -310,4 +320,29 @@ public class ActivityPrincipal extends ActionBarActivity {
 
         ft.commit();
     }
+
+    @OnClick(R.id.boton_flotante)
+    public void pulsarFlotante(ImageButton button){
+        Animation fade_out = AnimationUtils.loadAnimation(this, R.anim.boton_fade_in);
+        Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.boton_fade_out);
+        Animation rotate_in = AnimationUtils.loadAnimation(this, R.anim.rotate_in);
+        rotate_in.setDuration(ANIMATION_TIME);
+        fade_out.setDuration(ANIMATION_TIME);
+        fade_in.setDuration(ANIMATION_TIME);
+
+        if(mBotonFlotanteGaleria.getVisibility() == View.VISIBLE)
+        {
+            //TODO: animar desaparecer
+            mBotonFlotante.startAnimation(rotate_in);
+            mBotonFlotanteGaleria.startAnimation(fade_in);
+            mBotonFlotanteGaleria.setVisibility(View.INVISIBLE);
+        }else
+        {
+            //TODO: animar aparecer
+            mBotonFlotante.startAnimation(rotate_in);
+            mBotonFlotanteGaleria.startAnimation(fade_out);
+            mBotonFlotanteGaleria.setVisibility(View.VISIBLE);
+        }
+    }
+
 }

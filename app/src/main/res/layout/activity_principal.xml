@@ -4,26 +4,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/headerbar"
-        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:minHeight="?attr/actionBarSize"
-            android:background="@color/toolbar_background"/>
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:id="@+id/headerbar"
+            android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/contenedor"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            <android.support.v7.widget.Toolbar
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:minHeight="?attr/actionBarSize"
+                android:background="@color/toolbar_background"/>
 
-    </LinearLayout>
+            <FrameLayout
+                android:id="@+id/contenedor"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/boton_flotante_galeria"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginLeft="23dp"
+                android:scaleType="fitXY"
+                android:background="@color/transparente"
+                android:visibility="gone"
+                android:src="@drawable/selector_boton_flotante"/>
+
+            <ImageButton
+                android:id="@+id/boton_flotante"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_margin="16dp"
+                android:scaleType="fitXY"
+                android:background="@color/transparente"
+                android:src="@drawable/selector_boton_flotante"/>
+
+            </LinearLayout>
+
+    </RelativeLayout>
 
     <include layout="@layout/navdrawer" />
 
