@@ -129,12 +129,12 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="24dp"
                     android:tint="@color/LIME_500"
                     android:src="@drawable/ic_gift_titulo"/>
 
@@ -160,12 +160,12 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="24dp"
                     android:tint="@color/LIME_500"
                     android:src="@drawable/ic_gift_direccion"/>
 
@@ -191,12 +191,12 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginBottom="17dp"
+                    android:layout_marginRight="21dp"
+                    android:layout_marginLeft="25dp"
                     android:tint="@color/LIME_500"
                     android:src="@drawable/ic_gift_price"/>
 
