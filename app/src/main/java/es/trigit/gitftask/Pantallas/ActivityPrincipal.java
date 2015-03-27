@@ -276,6 +276,10 @@ public class ActivityPrincipal extends ActionBarActivity {
                     case AJUSTES:
                         Log.v("Navdrawer", "Seleccionado AJUSTES");
                         break;
+                    case CERRAR:
+                        Log.v("Navdrawer", "Seleccionado CERRAR");
+                        cerrarSesion();
+                        break;
                 }
             }
         });
@@ -334,5 +338,14 @@ public class ActivityPrincipal extends ActionBarActivity {
         fragmentActivo = fragmentTarget;
 
         ft.commit();
+    }
+
+    /**
+     * Se encarga de realizar los procesos necesarios en el cierre de sesion
+     */
+    private void cerrarSesion() {
+        // ToDo Quizas se deban borrar datos, por ahora solo cierra el activity
+        startActivity(new Intent(this, ActivityLogin.class));
+        finish();
     }
 }

@@ -5,31 +5,31 @@
     <item>
         <shape>
             <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" />
-            <solid android:color="#00CCCCCC" />
+            <solid android:color="#00AAAAAA" />
         </shape>
     </item>
     <item>
         <shape>
             <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" />
-            <solid android:color="#10CCCCCC" />
+            <solid android:color="#10AAAAAA" />
         </shape>
     </item>
     <item>
         <shape>
             <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" />
-            <solid android:color="#20CCCCCC" />
+            <solid android:color="#20AAAAAA" />
         </shape>
     </item>
     <item>
         <shape>
             <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" />
-            <solid android:color="#30CCCCCC" />
+            <solid android:color="#30AAAAAA" />
         </shape>
     </item>
     <item>
         <shape>
             <padding android:top="0dp" android:right="0dp" android:bottom="1dp" android:left="0dp" />
-            <solid android:color="#50CCCCCC" />
+            <solid android:color="#50AAAAAA" />
         </shape>
     </item>
 
