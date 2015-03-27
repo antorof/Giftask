@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -30,8 +32,8 @@ public class ActivityPrincipal extends ActionBarActivity {
 
     private final int ANIMATION_TIME = 200;
 
-    @InjectView(R.id.capa_transparente)
-    View mCapaTransparente;
+    @InjectView(R.id.boton_flotante)
+    FloatingActionsMenu mBotonFlotante;
 
     /**
      * NavDrawer
@@ -107,7 +109,6 @@ public class ActivityPrincipal extends ActionBarActivity {
         setContentView(R.layout.activity_principal);
         ButterKnife.inject(this);
 
-        mCapaTransparente.setClickable(false);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (mToolbar != null) {
@@ -178,8 +179,30 @@ public class ActivityPrincipal extends ActionBarActivity {
         if (mDrawerLayout == null)
             return;
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navdrawer_item_ajustes, R.string.navdrawer_item_discover);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navdrawer_item_ajustes, R.string.navdrawer_item_discover){
+            /** Se llama cuando el drawer se ha cerrado completamente. */
+            @Override
+            public void onDrawerClosed(View view)
+            {
+                super.onDrawerClosed(view);
+                mBotonFlotante.setVisibility(View.VISIBLE);
+                invalidateOptionsMenu(); // recrear el menú de opciones
+            }
 
+            /** Se llama cuando el drawer se desliza. */
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset)
+            {
+                mBotonFlotante.setVisibility(View.GONE);
+            }
+
+            /** Se llama cuando el drawer se ha abierto completamente. */
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu(); // recrear el menú de opciones
+            }
+        };
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();

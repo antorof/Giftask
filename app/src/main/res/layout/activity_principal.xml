@@ -35,89 +35,51 @@
 
     </android.support.v4.widget.DrawerLayout>
 
-    <!-- Capa transparente -->
-    <RelativeLayout
-        android:id="@+id/capa_transparente"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparente">
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/boton_flotante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        fab:fab_addButtonColorNormal="@color/purple_a200"
+        fab:fab_addButtonColorPressed="@color/purple_a400"
+        fab:fab_addButtonPlusIconColor="@color/white"
+        fab:fab_labelStyle="@style/BotonFlotanteLabel"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" >
 
-      <!--  <LinearLayout
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/boton_flotante_sin_imagen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:orientation="vertical">
+            fab:fab_icon="@drawable/ic_camara"
+            fab:fab_size="mini"
+            fab:fab_colorNormal="@color/purple_a200"
+            fab:fab_title="Sin imagen"
+            fab:fab_colorPressed="@color/purple_a400"/>
 
-            <ImageButton
-                android:id="@+id/boton_flotante_galeria"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginLeft="23dp"
-                android:scaleType="fitXY"
-                android:background="@color/transparente"
-                android:visibility="gone"
-                android:src="@drawable/selector_boton_flotante"/>
-
-            <ImageButton
-                android:id="@+id/boton_flotante"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_margin="16dp"
-                android:scaleType="fitXY"
-                android:background="@color/transparente"
-                android:src="@drawable/selector_boton_flotante"/>
-
-        </LinearLayout>
--->
-        <com.getbase.floatingactionbutton.FloatingActionsMenu
-            android:id="@+id/boton_flotante"
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/boton_flotante_galeria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            fab:fab_addButtonColorNormal="@color/purple_a200"
-            fab:fab_addButtonColorPressed="@color/purple_a400"
-            fab:fab_addButtonPlusIconColor="@color/white"
-            fab:fab_labelStyle="@style/BotonFlotanteLabel"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp" >
+            fab:fab_icon="@drawable/ic_galeria"
+            fab:fab_size="mini"
+            fab:fab_colorNormal="@color/purple_a200"
+            fab:fab_title="Galeria"
+            fab:fab_colorPressed="@color/purple_a400"/>
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/boton_flotante_sin_imagen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_icon="@drawable/ic_camara"
-                fab:fab_size="mini"
-                fab:fab_colorNormal="@color/purple_a200"
-                fab:fab_title="Sin imagen"
-                fab:fab_colorPressed="@color/purple_a400"/>
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/boton_flotante_camara"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon="@drawable/ic_camara"
+            fab:fab_size="mini"
+            fab:fab_colorNormal="@color/purple_a200"
+            fab:fab_title="Cámara"
+            fab:fab_colorPressed="@color/purple_a400"/>
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/boton_flotante_galeria"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_icon="@drawable/ic_galeria"
-                fab:fab_size="mini"
-                fab:fab_colorNormal="@color/purple_a200"
-                fab:fab_title="Galeria"
-                fab:fab_colorPressed="@color/purple_a400"/>
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/boton_flotante_camara"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_icon="@drawable/ic_camara"
-                fab:fab_size="mini"
-                fab:fab_colorNormal="@color/purple_a200"
-                fab:fab_title="Cámara"
-                fab:fab_colorPressed="@color/purple_a400"/>
-
-        </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
-
-    </RelativeLayout>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </RelativeLayout>
