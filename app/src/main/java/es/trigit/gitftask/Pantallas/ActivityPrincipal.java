@@ -153,6 +153,22 @@ public class ActivityPrincipal extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        }
+        // Si no estamos en el Timeline se vuelve al Timeline
+        else if(navDrawerItemActivo != NAVDRAWER_ITEM.TIMELINE){
+            sustituirFragment(NAVDRAWER_ITEM.TIMELINE);
+            navDrawerItemActivo = NAVDRAWER_ITEM.TIMELINE;
+            getSupportActionBar().setTitle(NAVDRAWER_TITLE_RES_ID[NAVDRAWER_ITEM.TIMELINE.ordinal()]);
+            formatearColorItemsNavDrawer(mDrawerItemListContainer);
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+        }
+        else
+            super.onBackPressed();
+    }
 
     //-----------------------------------------------
     //----------------- ON CLICK --------------------
@@ -160,6 +176,9 @@ public class ActivityPrincipal extends ActionBarActivity {
 
     @OnClick(R.id.rlNavDrawer_cabecera)
     public void pulsarCabecera() {
+        navDrawerItemActivo = NAVDRAWER_ITEM.CABECERA;
+        getSupportActionBar().setTitle("Editar perfil"); // ToDo Esto no debe hacerse asi
+        formatearColorItemsNavDrawer(mDrawerItemListContainer);
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         sustituirFragment(NAVDRAWER_ITEM.CABECERA);
     }
