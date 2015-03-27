@@ -37,7 +37,7 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
 {
     private final String TAG = "Fragment Timeline";
 
-    private final int DELAY_REFRESH_ITEMS = 5000;
+    private final int DELAY_REFRESH_ITEMS = 3000;
 
     @InjectView(R.id.timeline_grid) GridView mGridView;
     @InjectView(R.id.timeline_swipe_container) SwipeRefreshLayout mSwipeLayout;
@@ -94,7 +94,8 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void run() {
                 // TODO: obtener los datos de algún lugar
-                mAdapter.remove(mDatos.get(2));
+//                mAdapter.remove(mDatos.get(2)); // FC
+                mAdapter.addAll(crearDatosTesting(1));
                 mSwipeLayout.setRefreshing(false);
             }
         }, DELAY_REFRESH_ITEMS);
