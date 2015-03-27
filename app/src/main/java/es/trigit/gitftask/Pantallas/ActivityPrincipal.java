@@ -14,9 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,12 +29,6 @@ public class ActivityPrincipal extends ActionBarActivity {
     private final String TAG = "Activity Principal";
 
     private final int ANIMATION_TIME = 200;
-
-    @InjectView(R.id.boton_flotante)
-    ImageButton mBotonFlotante;
-
-    @InjectView(R.id.boton_flotante_galeria)
-    ImageButton mBotonFlotanteGaleria;
 
     @InjectView(R.id.capa_transparente)
     View mCapaTransparente;
@@ -164,57 +155,19 @@ public class ActivityPrincipal extends ActionBarActivity {
         sustituirFragment(NAVDRAWER_ITEM.CABECERA);
     }
 
+    @OnClick(R.id.boton_flotante_sin_imagen)
+    public void pulsarSinImagen() {
+       Log.v(TAG, "SIN IMAGEN");
+    }
+
     @OnClick(R.id.boton_flotante_galeria)
-    public void pulsarGaleria(){
+    public void pulsarGaleria() {
+        Log.v(TAG, "GALERIA");
+    }
+
+    @OnClick(R.id.boton_flotante_camara)
+    public void pulsarCamara() {
         startActivity(new Intent(this, ActivityCamera.class));
-    }
-
-    @OnClick(R.id.boton_flotante)
-    public void pulsarFlotante(ImageButton button){
-
-        if(mBotonFlotanteGaleria.getVisibility() == View.VISIBLE)
-        {
-            //TODO: animar desaparecer
-            animarDesaparecerFlotante();
-        }else {
-            //TODO: animar aparecer
-            animarAparecerFlotante();
-        }
-    }
-
-    @OnClick(R.id.capa_transparente)
-    public void pulsarCapaTransparente()
-    {
-        mCapaTransparente.setClickable(true);
-        animarDesaparecerFlotante();
-    }
-
-    private void animarDesaparecerFlotante()
-    {
-        Animation fade_out = AnimationUtils.loadAnimation(this, R.anim.anim_desappear);
-        Animation rotate_in = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_right);
-        rotate_in.setDuration(ANIMATION_TIME);
-        fade_out.setDuration(ANIMATION_TIME);
-
-        mBotonFlotante.startAnimation(rotate_in);
-        mBotonFlotanteGaleria.startAnimation(fade_out);
-        mBotonFlotanteGaleria.setVisibility(View.INVISIBLE);
-        mCapaTransparente.setBackgroundColor(getResources().getColor(R.color.transparente));
-        mCapaTransparente.setClickable(false);
-    }
-
-    private void animarAparecerFlotante()
-    {
-        Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.anim_appear);
-        Animation rotate_in = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_right);
-        rotate_in.setDuration(ANIMATION_TIME);
-        fade_in.setDuration(ANIMATION_TIME);
-
-        mBotonFlotante.startAnimation(rotate_in);
-        mBotonFlotanteGaleria.startAnimation(fade_in);
-        mBotonFlotanteGaleria.setVisibility(View.VISIBLE);
-        mCapaTransparente.setBackgroundColor(getResources().getColor(R.color.transparenteCapa));
-        mCapaTransparente.setClickable(true);
     }
 
     /**

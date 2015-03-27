@@ -26,4 +26,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="BotonFlotanteLabel">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>
