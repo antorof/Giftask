@@ -39,6 +39,9 @@ public class ActivityPrincipal extends ActionBarActivity {
     @InjectView(R.id.boton_flotante_galeria)
     ImageButton mBotonFlotanteGaleria;
 
+    @InjectView(R.id.capa_transparente)
+    View mCapaTransparente;
+
     /**
      * NavDrawer
      */
@@ -113,6 +116,7 @@ public class ActivityPrincipal extends ActionBarActivity {
         setContentView(R.layout.activity_principal);
         ButterKnife.inject(this);
 
+        mCapaTransparente.setClickable(false);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (mToolbar != null) {
@@ -162,31 +166,55 @@ public class ActivityPrincipal extends ActionBarActivity {
 
     @OnClick(R.id.boton_flotante_galeria)
     public void pulsarGaleria(){
-       startActivity(new Intent(this, ActivityCamera.class));
+        startActivity(new Intent(this, ActivityCamera.class));
     }
 
     @OnClick(R.id.boton_flotante)
     public void pulsarFlotante(ImageButton button){
-        Animation fade_out = AnimationUtils.loadAnimation(this, R.anim.boton_fade_in);
-        Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.boton_fade_out);
-        Animation rotate_in = AnimationUtils.loadAnimation(this, R.anim.rotate_in);
-        rotate_in.setDuration(ANIMATION_TIME);
-        fade_out.setDuration(ANIMATION_TIME);
-        fade_in.setDuration(ANIMATION_TIME);
 
         if(mBotonFlotanteGaleria.getVisibility() == View.VISIBLE)
         {
             //TODO: animar desaparecer
-            mBotonFlotante.startAnimation(rotate_in);
-            mBotonFlotanteGaleria.startAnimation(fade_in);
-            mBotonFlotanteGaleria.setVisibility(View.INVISIBLE);
-        }else
-        {
+            animarDesaparecerFlotante();
+        }else {
             //TODO: animar aparecer
-            mBotonFlotante.startAnimation(rotate_in);
-            mBotonFlotanteGaleria.startAnimation(fade_out);
-            mBotonFlotanteGaleria.setVisibility(View.VISIBLE);
+            animarAparecerFlotante();
         }
+    }
+
+    @OnClick(R.id.capa_transparente)
+    public void pulsarCapaTransparente()
+    {
+        mCapaTransparente.setClickable(true);
+        animarDesaparecerFlotante();
+    }
+
+    private void animarDesaparecerFlotante()
+    {
+        Animation fade_out = AnimationUtils.loadAnimation(this, R.anim.anim_desappear);
+        Animation rotate_in = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_right);
+        rotate_in.setDuration(ANIMATION_TIME);
+        fade_out.setDuration(ANIMATION_TIME);
+
+        mBotonFlotante.startAnimation(rotate_in);
+        mBotonFlotanteGaleria.startAnimation(fade_out);
+        mBotonFlotanteGaleria.setVisibility(View.INVISIBLE);
+        mCapaTransparente.setBackgroundColor(getResources().getColor(R.color.transparente));
+        mCapaTransparente.setClickable(false);
+    }
+
+    private void animarAparecerFlotante()
+    {
+        Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.anim_appear);
+        Animation rotate_in = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_right);
+        rotate_in.setDuration(ANIMATION_TIME);
+        fade_in.setDuration(ANIMATION_TIME);
+
+        mBotonFlotante.startAnimation(rotate_in);
+        mBotonFlotanteGaleria.startAnimation(fade_in);
+        mBotonFlotanteGaleria.setVisibility(View.VISIBLE);
+        mCapaTransparente.setBackgroundColor(getResources().getColor(R.color.transparenteCapa));
+        mCapaTransparente.setClickable(true);
     }
 
     /**
@@ -334,7 +362,7 @@ public class ActivityPrincipal extends ActionBarActivity {
      */
     private void sustituirFragment(NAVDRAWER_ITEM fragmentTarget) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+        ft.setCustomAnimations(R.anim.animator_fade_in, R.anim.animator_fade_out);
 
         switch (fragmentTarget) {
             case TIMELINE:
@@ -354,7 +382,4 @@ public class ActivityPrincipal extends ActionBarActivity {
 
         ft.commit();
     }
-
-
-
 }
