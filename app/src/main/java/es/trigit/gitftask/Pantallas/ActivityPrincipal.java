@@ -100,8 +100,8 @@ public class ActivityPrincipal extends ActionBarActivity {
             R.drawable.ic_launcher, // MIS REGALOS
             R.drawable.ic_launcher, // LO TENGO
             R.drawable.ic_launcher, // DISCOVER
-            R.drawable.ic_launcher, // AJUSTES
-            R.drawable.ic_launcher, // ABOUT
+            R.drawable.ic_settings_grey600_24dp, // AJUSTES
+            R.drawable.ic_info_grey600_24dp, // ABOUT
             R.drawable.ic_launcher, // CERRAR
     };
 
@@ -151,6 +151,9 @@ public class ActivityPrincipal extends ActionBarActivity {
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else if (mBotonFlotante.isExpanded()) {
+            mBotonFlotante.collapse();
         }
         // Si no estamos en el Timeline se vuelve al Timeline
         else if(navDrawerItemActivo != NAVDRAWER_ITEM.TIMELINE){
