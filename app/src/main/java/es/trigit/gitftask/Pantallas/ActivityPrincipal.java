@@ -71,8 +71,8 @@ public class ActivityPrincipal extends ActionBarActivity {
     /**
      * Indica que fragmen esta activo
      */
-
     private NAVDRAWER_ITEM fragmentActivo;
+    
     /**
      * Títulos de los posibles items del NavDrawer,
      * los índices deben corresponder con los de la lista superior
