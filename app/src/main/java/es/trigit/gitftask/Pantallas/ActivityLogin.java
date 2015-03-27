@@ -182,6 +182,7 @@ public class ActivityLogin extends FragmentActivity {
         set.playTogether(
                 ObjectAnimator.ofFloat(drwRegalo, "scaleX", 1, 2f),
                 ObjectAnimator.ofFloat(drwRegalo, "scaleY", 1, 2f),
+                ObjectAnimator.ofFloat(tvGiftask, "translationY", 0, height/14),
                 ObjectAnimator.ofFloat(drwRegalo, "translationY", 0, height/4),
                 ObjectAnimator.ofFloat(progress, "translationY", 0, height/3)
         );
