@@ -1,6 +1,7 @@
 package es.trigit.gitftask.Pantallas;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -149,10 +150,43 @@ public class ActivityPrincipal extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //-----------------------------------------------
+    //----------------- ON CLICK --------------------
+    //-----------------------------------------------
+
     @OnClick(R.id.rlNavDrawer_cabecera)
     public void pulsarCabecera() {
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         sustituirFragment(NAVDRAWER_ITEM.CABECERA);
+    }
+
+    @OnClick(R.id.boton_flotante_galeria)
+    public void pulsarGaleria(){
+       startActivity(new Intent(this, ActivityCamera.class));
+    }
+
+    @OnClick(R.id.boton_flotante)
+    public void pulsarFlotante(ImageButton button){
+        Animation fade_out = AnimationUtils.loadAnimation(this, R.anim.boton_fade_in);
+        Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.boton_fade_out);
+        Animation rotate_in = AnimationUtils.loadAnimation(this, R.anim.rotate_in);
+        rotate_in.setDuration(ANIMATION_TIME);
+        fade_out.setDuration(ANIMATION_TIME);
+        fade_in.setDuration(ANIMATION_TIME);
+
+        if(mBotonFlotanteGaleria.getVisibility() == View.VISIBLE)
+        {
+            //TODO: animar desaparecer
+            mBotonFlotante.startAnimation(rotate_in);
+            mBotonFlotanteGaleria.startAnimation(fade_in);
+            mBotonFlotanteGaleria.setVisibility(View.INVISIBLE);
+        }else
+        {
+            //TODO: animar aparecer
+            mBotonFlotante.startAnimation(rotate_in);
+            mBotonFlotanteGaleria.startAnimation(fade_out);
+            mBotonFlotanteGaleria.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -321,28 +355,6 @@ public class ActivityPrincipal extends ActionBarActivity {
         ft.commit();
     }
 
-    @OnClick(R.id.boton_flotante)
-    public void pulsarFlotante(ImageButton button){
-        Animation fade_out = AnimationUtils.loadAnimation(this, R.anim.boton_fade_in);
-        Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.boton_fade_out);
-        Animation rotate_in = AnimationUtils.loadAnimation(this, R.anim.rotate_in);
-        rotate_in.setDuration(ANIMATION_TIME);
-        fade_out.setDuration(ANIMATION_TIME);
-        fade_in.setDuration(ANIMATION_TIME);
 
-        if(mBotonFlotanteGaleria.getVisibility() == View.VISIBLE)
-        {
-            //TODO: animar desaparecer
-            mBotonFlotante.startAnimation(rotate_in);
-            mBotonFlotanteGaleria.startAnimation(fade_in);
-            mBotonFlotanteGaleria.setVisibility(View.INVISIBLE);
-        }else
-        {
-            //TODO: animar aparecer
-            mBotonFlotante.startAnimation(rotate_in);
-            mBotonFlotanteGaleria.startAnimation(fade_out);
-            mBotonFlotanteGaleria.setVisibility(View.VISIBLE);
-        }
-    }
 
 }
