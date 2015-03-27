@@ -2,12 +2,15 @@ package es.trigit.gitftask.Pantallas;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -125,6 +128,7 @@ public class ActivityLogin extends FragmentActivity {
         Globales.setUsuarioLogueado(mUsuario);
         mActivity.startActivity(new Intent(mActivity, ActivityPrincipal.class));
         mProgressDialog.dismiss();
+        finish();
     }
 
 
@@ -141,7 +145,18 @@ public class ActivityLogin extends FragmentActivity {
     }
 
     private void muestraCargando() {
-        ValueAnimator anim = ValueAnimator.ofInt(panelSuperior.getMeasuredHeight(), 1600);
+        // Oculto el teclado
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etPassword.getWindowToken(), 0);
+
+        // Dimensiones de la pantalla
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels,
+            height = metrics.heightPixels;
+
+        // Animación del tamaño de la caja
+        ValueAnimator anim = ValueAnimator.ofInt(panelSuperior.getMeasuredHeight(), height+100);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -154,16 +169,21 @@ public class ActivityLogin extends FragmentActivity {
         anim.setDuration(500);
         anim.start();
 
+        // Mostramos el progreso y el titulo
         progress.setVisibility(View.VISIBLE);
+        tvGiftask.setAlpha(0.0f);
         tvGiftask.setVisibility(View.VISIBLE);
+        ObjectAnimator animTitle = ObjectAnimator.ofFloat(tvGiftask, "alpha", 0.0f, 1).setDuration(500);
+        animTitle.setStartDelay(200);
+        animTitle.start();
 
+        // Movemos y escalamos el regalo y el progreso
         AnimatorSet set = new AnimatorSet();
         set.playTogether(
                 ObjectAnimator.ofFloat(drwRegalo, "scaleX", 1, 2f),
                 ObjectAnimator.ofFloat(drwRegalo, "scaleY", 1, 2f),
-                ObjectAnimator.ofFloat(drwRegalo, "translationY", 0, 260),
-                ObjectAnimator.ofFloat(progress, "translationY", 0, 360)//,
-//                ObjectAnimator.ofFloat(drwRegalo, "translationX", 0, 90)
+                ObjectAnimator.ofFloat(drwRegalo, "translationY", 0, height/4),
+                ObjectAnimator.ofFloat(progress, "translationY", 0, height/3)
         );
         set.setDuration(1 * 500).start();
     }

@@ -95,13 +95,17 @@
             android:layout_alignParentStart="true" />
 
     </RelativeLayout>
+    <!--Para que funcione correctamente el redimensionado necesito el FrameLayout-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/panelSuperior"
         android:layout_margin="0dp"
         android:padding="12dp"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/panel_sombra_inferior"
         android:orientation="vertical">
 
@@ -132,6 +136,7 @@
             app:cpv_color="#FFF"/>
 
     </LinearLayout>
+    </FrameLayout>
 </RelativeLayout>
 
 
