@@ -44,6 +44,7 @@
     <color name="gris900">#212121</color>
 
     <color name="purple_a200">#e040fb</color>
+    <color name="purple_a400">#D500F9</color>
 
     <color name="LIME_500">#CDDC39</color>
     <color name="LIME_700">#afb42b</color>
@@ -77,4 +78,12 @@
     <color name="navdrawer_background">@android:color/white</color>
     <color name="navdrawer_item_seleccionado">@color/LIME_500</color>
     <color name="navdrawer_item_no_seleccionado">@color/GREY_500</color>
+
+
+
+
+    <color name="half_black">#808080</color>
+    <color name="white">#fafafa</color>
+    <color name="white_pressed">#f1f1f1</color>
+    <color name="black_semi_transparent">#B2000000</color>
 </resources>

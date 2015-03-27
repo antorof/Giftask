@@ -22,6 +22,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -36,13 +38,7 @@ public class ActivityPrincipal extends ActionBarActivity {
     private final int ANIMATION_TIME = 200;
 
     @InjectView(R.id.boton_flotante)
-    ImageButton mBotonFlotante;
-
-    @InjectView(R.id.boton_flotante_galeria)
-    ImageButton mBotonFlotanteGaleria;
-
-    @InjectView(R.id.capa_transparente)
-    View mCapaTransparente;
+    FloatingActionsMenu mBotonFlotante;
 
     /**
      * NavDrawer
@@ -82,8 +78,8 @@ public class ActivityPrincipal extends ActionBarActivity {
     /**
      * Indica que fragmen esta activo
      */
-
     private NAVDRAWER_ITEM fragmentActivo;
+    
     /**
      * Títulos de los posibles items del NavDrawer,
      * los índices deben corresponder con los de la lista superior
@@ -118,7 +114,6 @@ public class ActivityPrincipal extends ActionBarActivity {
         setContentView(R.layout.activity_principal);
         ButterKnife.inject(this);
 
-        mCapaTransparente.setClickable(false);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (mToolbar != null) {
@@ -185,57 +180,19 @@ public class ActivityPrincipal extends ActionBarActivity {
         sustituirFragment(NAVDRAWER_ITEM.CABECERA);
     }
 
+    @OnClick(R.id.boton_flotante_sin_imagen)
+    public void pulsarSinImagen() {
+       Log.v(TAG, "SIN IMAGEN");
+    }
+
     @OnClick(R.id.boton_flotante_galeria)
-    public void pulsarGaleria(){
+    public void pulsarGaleria() {
+        Log.v(TAG, "GALERIA");
+    }
+
+    @OnClick(R.id.boton_flotante_camara)
+    public void pulsarCamara() {
         startActivity(new Intent(this, ActivityCamera.class));
-    }
-
-    @OnClick(R.id.boton_flotante)
-    public void pulsarFlotante(ImageButton button){
-
-        if(mBotonFlotanteGaleria.getVisibility() == View.VISIBLE)
-        {
-            //TODO: animar desaparecer
-            animarDesaparecerFlotante();
-        }else {
-            //TODO: animar aparecer
-            animarAparecerFlotante();
-        }
-    }
-
-    @OnClick(R.id.capa_transparente)
-    public void pulsarCapaTransparente()
-    {
-        mCapaTransparente.setClickable(true);
-        animarDesaparecerFlotante();
-    }
-
-    private void animarDesaparecerFlotante()
-    {
-        Animation fade_out = AnimationUtils.loadAnimation(this, R.anim.anim_desappear);
-        Animation rotate_in = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_right);
-        rotate_in.setDuration(ANIMATION_TIME);
-        fade_out.setDuration(ANIMATION_TIME);
-
-        mBotonFlotante.startAnimation(rotate_in);
-        mBotonFlotanteGaleria.startAnimation(fade_out);
-        mBotonFlotanteGaleria.setVisibility(View.INVISIBLE);
-        mCapaTransparente.setBackgroundColor(getResources().getColor(R.color.transparente));
-        mCapaTransparente.setClickable(false);
-    }
-
-    private void animarAparecerFlotante()
-    {
-        Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.anim_appear);
-        Animation rotate_in = AnimationUtils.loadAnimation(this, R.anim.anim_rotate_right);
-        rotate_in.setDuration(ANIMATION_TIME);
-        fade_in.setDuration(ANIMATION_TIME);
-
-        mBotonFlotante.startAnimation(rotate_in);
-        mBotonFlotanteGaleria.startAnimation(fade_in);
-        mBotonFlotanteGaleria.setVisibility(View.VISIBLE);
-        mCapaTransparente.setBackgroundColor(getResources().getColor(R.color.transparenteCapa));
-        mCapaTransparente.setClickable(true);
     }
 
     /**
@@ -247,14 +204,33 @@ public class ActivityPrincipal extends ActionBarActivity {
             return;
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navdrawer_item_ajustes, R.string.navdrawer_item_discover){
+            /** Se llama cuando el drawer se ha cerrado completamente. */
             @Override
-            public void onDrawerOpened(android.view.View drawerView) {
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                mBotonFlotante.setVisibility(View.VISIBLE);
+                invalidateOptionsMenu(); // recrear el menú de opciones
+            }
+
+            /** Se llama cuando el drawer se desliza. */
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView,slideOffset);
+                mBotonFlotante.setVisibility(View.GONE);
+            }
+
+            /** Se llama cuando el drawer se ha abierto completamente. */
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu(); // recrear el menú de opciones
                 // Oculto el teclado
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(mCapaTransparente.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(mBotonFlotante.getWindowToken(), 0);
+                // Retraigo el boton flotante
+                mBotonFlotante.collapse();
             }
         };
-
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
