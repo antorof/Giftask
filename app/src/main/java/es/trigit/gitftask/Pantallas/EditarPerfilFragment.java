@@ -2,6 +2,8 @@ package es.trigit.gitftask.Pantallas;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -16,12 +19,13 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import es.trigit.gitftask.Vistas.DatePickerFragment;
+import butterknife.OnClick;
 import es.trigit.gitftask.R;
 import es.trigit.gitftask.Utiles.Globales;
+import es.trigit.gitftask.Vistas.DatePickerFragment;
 
 
-public class EditarPerfilFragment extends Fragment implements DatePickerFragment.OnDatePicker{
+public class EditarPerfilFragment extends Fragment implements DatePickerFragment.OnDatePicker {
 
     @InjectView(R.id.etFragmentEditarPerfil_nickname)
     MaterialEditText etNickname;
@@ -35,6 +39,8 @@ public class EditarPerfilFragment extends Fragment implements DatePickerFragment
     RadioButton rbHombre;
     @InjectView(R.id.rdFragmentEditarPerfil_Mujer)
     RadioButton rbMujer;
+    @InjectView(R.id.ivFragmentEditarPerfil_imagen)
+    ImageView ivImagen;
 
     public static EditarPerfilFragment newInstance() {
         return new EditarPerfilFragment();
@@ -65,17 +71,25 @@ public class EditarPerfilFragment extends Fragment implements DatePickerFragment
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         etNombre.setText(Globales.getUsuarioLogueado().getNombre());
         etLocalidad.setText(Globales.getUsuarioLogueado().getLocalidad());
         etCumpleanos.setText(Globales.getUsuarioLogueado().getFechaCumpleanos());
         etNickname.setText(Globales.getUsuarioLogueado().getNickname());
-        if(!Globales.getUsuarioLogueado().isMale()){
+        if (!Globales.getUsuarioLogueado().isMale()) {
             rbHombre.setChecked(true);
-        }else{
+        } else {
             rbMujer.setChecked(true);
         }
+    }
+
+    //------------------------------------------------------------
+    //----------------------- ON CLICK ---------------------------
+    //------------------------------------------------------------
+    @OnClick(R.id.ivFragmentEditarPerfil_imagen)
+    public void pulsarImagenPerfil() {
+        startActivityForResult(new Intent(this.getActivity(), ActivityCamera.class), 0);
     }
 
     //--------------------------------------------------------
@@ -95,21 +109,22 @@ public class EditarPerfilFragment extends Fragment implements DatePickerFragment
                 saveUsuario();
                 break;
         }
+
         return true;
 
     }
 
-    public void saveUsuario(){
+    public void saveUsuario() {
         Globales.getUsuarioLogueado().setFechaCumpleano(etCumpleanos.getText().toString());
         Globales.getUsuarioLogueado().setLocalidad(etLocalidad.getText().toString());
         Globales.getUsuarioLogueado().setNickname(etNickname.getText().toString());
         Globales.getUsuarioLogueado().setNombre(etNombre.getText().toString());
-        if(rbMujer.isChecked())
+        if (rbMujer.isChecked())
             Globales.getUsuarioLogueado().setSexo(false);
         else
             Globales.getUsuarioLogueado().setSexo(true);
 
-        Toast.makeText(this.getActivity(),"Perfil de usuario guardado", Toast.LENGTH_LONG).show();
+        Toast.makeText(this.getActivity(), "Perfil de usuario guardado", Toast.LENGTH_LONG).show();
     }
 
     //--------------------------------------------------------
@@ -119,5 +134,16 @@ public class EditarPerfilFragment extends Fragment implements DatePickerFragment
     @Override
     public void onDatePicker(String fecha) {
         etCumpleanos.setText(fecha);
+    }
+
+    //--------------------------------------------------------
+    //------------------ Vuelta de la camara -----------------
+    //--------------------------------------------------------
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap bitmap = Globales.getFotoObtenida();
+        ivImagen.setImageBitmap(bitmap);
+
     }
 }

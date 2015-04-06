@@ -1,6 +1,7 @@
 package es.trigit.gitftask.Utiles;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import es.trigit.gitftask.R;
  */
 public class Globales {
     private static Usuario usuarioLogueado;
+    private static Bitmap fotoObtenida;
 
     public static Usuario getUsuarioLogueado() {
         return usuarioLogueado;
@@ -23,8 +25,7 @@ public class Globales {
         Globales.usuarioLogueado = usuarioLogueado;
     }
 
-    public static void iniciarDatos(Context context)
-    {
+    public static void iniciarDatos(Context context) {
         usuarios.clear();
         regalos.clear();
 
@@ -69,33 +70,42 @@ public class Globales {
 
     private static ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 
-    public static Usuario getUsuario(int id)
-    {
-        for(Usuario u : usuarios)
-            if(u.getId() == id)
+    public static Usuario getUsuario(int id) {
+        for (Usuario u : usuarios)
+            if (u.getId() == id)
                 return u;
 
         return null;
     }
 
-    public static ArrayList<Usuario> getUsuarios()
-    {
+    public static ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
 
     private static ArrayList<Regalo> regalos = new ArrayList<Regalo>();
 
-    public static Regalo getRegalo(int id)
-    {
-        for(Regalo r : regalos)
-            if(r.getId() == id)
+    public static Regalo getRegalo(int id) {
+        for (Regalo r : regalos)
+            if (r.getId() == id)
                 return r;
 
         return null;
     }
 
-    public static ArrayList<Regalo> getRegalos()
-    {
+    public static ArrayList<Regalo> getRegalos() {
         return regalos;
+    }
+
+    public static Bitmap getFotoObtenida() {
+        try {
+            return fotoObtenida;
+        } finally {
+            fotoObtenida = null;
+        }
+
+    }
+
+    public static void setFotoObtenida(Bitmap fotoObtenida) {
+        Globales.fotoObtenida = fotoObtenida;
     }
 }

@@ -41,23 +41,33 @@ import es.trigit.gitftask.Utiles.Globales;
 
 public class ActivityLogin extends FragmentActivity {
 
-    private enum TipoLogin{login, registro, facebook}
+    private enum TipoLogin {login, registro, facebook}
 
     private ProgressDialog mProgressDialog;
     private boolean mModoRegistrar;
     private Usuario mUsuario;
     private Activity mActivity;
 
-    @InjectView(R.id.panelSuperior)  View panelSuperior;
-    @InjectView(R.id.drwRegalo)  View drwRegalo;
-    @InjectView(R.id.progress) CircularProgressView progress;
-    @InjectView(R.id.tvGiftask) TextView tvGiftask;
-    @InjectView(R.id.etActivityLogin_email)  MaterialEditText etEmail;
-    @InjectView(R.id.etActivityLogin_nickname)  MaterialEditText etNickname;
-    @InjectView(R.id.etActivityLogin_password)  MaterialEditText etPassword;
-    @InjectView(R.id.btActivityLogin_facebook)  LoginButton btLoginFacebook;
-    @InjectView(R.id.btActivityLogin_registrar)  Button btRegistrar;
-    @InjectView(R.id.btActivityLogin_conectar)  Button btConectar;
+    @InjectView(R.id.panelSuperior)
+    View panelSuperior;
+    @InjectView(R.id.drwRegalo)
+    View drwRegalo;
+    @InjectView(R.id.progress)
+    CircularProgressView progress;
+    @InjectView(R.id.tvGiftask)
+    TextView tvGiftask;
+    @InjectView(R.id.etActivityLogin_email)
+    MaterialEditText etEmail;
+    @InjectView(R.id.etActivityLogin_nickname)
+    MaterialEditText etNickname;
+    @InjectView(R.id.etActivityLogin_password)
+    MaterialEditText etPassword;
+    @InjectView(R.id.btActivityLogin_facebook)
+    LoginButton btLoginFacebook;
+    @InjectView(R.id.btActivityLogin_registrar)
+    Button btRegistrar;
+    @InjectView(R.id.btActivityLogin_conectar)
+    Button btConectar;
 
 
     /**
@@ -89,15 +99,16 @@ public class ActivityLogin extends FragmentActivity {
         etNickname.setVisibility(View.INVISIBLE);
 
     }
+
     @OnClick(R.id.btActivityLogin_registrar)
-    public void pulsarRegistrar(Button button){
+    public void pulsarRegistrar(Button button) {
         etNickname.setVisibility(View.VISIBLE);
         btRegistrar.setVisibility(View.INVISIBLE);
         mModoRegistrar = !mModoRegistrar;
     }
 
     @OnClick(R.id.btActivityLogin_conectar)
-    public void pulsarConectar(Button button){
+    public void pulsarConectar(Button button) {
         if (mModoRegistrar) {
             new ThreadRegistro().execute();
 
@@ -124,7 +135,7 @@ public class ActivityLogin extends FragmentActivity {
         uiHelper.onResume();
     }
 
-    private void finActivity(TipoLogin tipo){
+    private void finActivity(TipoLogin tipo) {
         Globales.setUsuarioLogueado(mUsuario);
         mActivity.startActivity(new Intent(mActivity, ActivityPrincipal.class));
         mProgressDialog.dismiss();
@@ -146,17 +157,17 @@ public class ActivityLogin extends FragmentActivity {
 
     private void muestraCargando() {
         // Oculto el teclado
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etPassword.getWindowToken(), 0);
 
         // Dimensiones de la pantalla
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels,
-            height = metrics.heightPixels;
+                height = metrics.heightPixels;
 
         // Animación del tamaño de la caja
-        ValueAnimator anim = ValueAnimator.ofInt(panelSuperior.getMeasuredHeight(), height+100);
+        ValueAnimator anim = ValueAnimator.ofInt(panelSuperior.getMeasuredHeight(), height + 100);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -182,9 +193,9 @@ public class ActivityLogin extends FragmentActivity {
         set.playTogether(
                 ObjectAnimator.ofFloat(drwRegalo, "scaleX", 1, 2f),
                 ObjectAnimator.ofFloat(drwRegalo, "scaleY", 1, 2f),
-                ObjectAnimator.ofFloat(tvGiftask, "translationY", 0, height/14),
-                ObjectAnimator.ofFloat(drwRegalo, "translationY", 0, height/4),
-                ObjectAnimator.ofFloat(progress, "translationY", 0, height/3)
+                ObjectAnimator.ofFloat(tvGiftask, "translationY", 0, height / 14),
+                ObjectAnimator.ofFloat(drwRegalo, "translationY", 0, height / 4),
+                ObjectAnimator.ofFloat(progress, "translationY", 0, height / 3)
         );
         set.setDuration(1 * 500).start();
     }
@@ -268,18 +279,20 @@ public class ActivityLogin extends FragmentActivity {
                     HttpMethod.GET,
                     new Request.Callback() {
                         public void onCompleted(Response response) {
-                            GraphObject user = response.getGraphObject();;
-                            mUsuario.setEmail(user.asMap().get("email").toString());
-                            mUsuario.setFechaCumpleano(user.asMap().get("birthday").toString());
-                            mUsuario.setNombre(user.asMap().get("first_name").toString()+" "+user.asMap().get("last_name").toString());
-                            mUsuario.setSexo(user.asMap().get("gender").toString());
-                            mUsuario.setLocalidad(user.asMap().get("locale").toString());
-
                             try {
-                                mUsuario.setImagen(Picasso.with(mActivity).load("https://graph.facebook.com/"+user.asMap().get("id").toString()+"/picture?type=large").get());
+                                GraphObject user = response.getGraphObject();
+                                mUsuario.setEmail(user.asMap().get("email").toString());
+                                mUsuario.setFechaCumpleano(user.asMap().get("birthday").toString());
+                                mUsuario.setNombre(user.asMap().get("first_name").toString() + " " + user.asMap().get("last_name").toString());
+                                mUsuario.setSexo(user.asMap().get("gender").toString());
+                                mUsuario.setLocalidad(user.asMap().get("locale").toString());
+                                mUsuario.setImagen(Picasso.with(mActivity).load("https://graph.facebook.com/" + user.asMap().get("id").toString() + "/picture?type=large").get());
+
                             } catch (IOException e) {
+                                //Se puede haber cancelado la sincronizacion con facebook, por lo que user es null
                                 e.printStackTrace();
                             }
+
 
                             //TODO Registrarse con el correo e id
 

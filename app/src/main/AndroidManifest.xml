@@ -40,6 +40,7 @@
 
         <activity
             android:name=".Pantallas.ActivityCamera"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_actvity_camera" >
         </activity>
     </application>
