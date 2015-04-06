@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/ivCameraPreview_alternar"
-                android:src="@mipmap/ic_camera_alt_white_24dp"
+                android:src="@drawable/ic_camera_switch_white_24dp"
                 android:layout_weight="1" />
 
             <TextView
