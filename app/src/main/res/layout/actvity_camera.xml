@@ -71,8 +71,9 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Foto"
+                android:text=""
                 android:id="@+id/btActivityCamera_boton"
+                android:background="@drawable/btn_camera"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
         </RelativeLayout>
