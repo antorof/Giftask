@@ -36,6 +36,7 @@ public class ActivityAnadirGift extends ActionBarActivity {
                 break;
 
             case EXTRA_GALERIA:
+                ivImagen.setImageBitmap(Globales.getFotoObtenida());
                 break;
 
             default:

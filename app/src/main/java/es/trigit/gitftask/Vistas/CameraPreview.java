@@ -16,8 +16,6 @@ import java.util.List;
  */
 public class CameraPreview extends SurfaceView {
 
-    private static final String TAG = "CameraPreview";
-
     private Context context;
     private Camera mCamera;
 
