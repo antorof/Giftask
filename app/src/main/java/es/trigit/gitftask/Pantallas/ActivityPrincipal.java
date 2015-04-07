@@ -77,7 +77,7 @@ public class ActivityPrincipal extends ActionBarActivity {
      * Indica que fragmen esta activo
      */
     private NAVDRAWER_ITEM fragmentActivo;
-    
+
     /**
      * Títulos de los posibles items del NavDrawer,
      * los índices deben corresponder con los de la lista superior
@@ -125,6 +125,10 @@ public class ActivityPrincipal extends ActionBarActivity {
 
         crearNavDrawer();
     }
+
+    //-----------------------------------------------
+    //----------------- MENU --------------------
+    //-----------------------------------------------
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -183,7 +187,7 @@ public class ActivityPrincipal extends ActionBarActivity {
 
     @OnClick(R.id.boton_flotante_sin_imagen)
     public void pulsarSinImagen() {
-       Log.v(TAG, "SIN IMAGEN");
+        Log.v(TAG, "SIN IMAGEN");
     }
 
     @OnClick(R.id.boton_flotante_galeria)
@@ -425,7 +429,9 @@ public class ActivityPrincipal extends ActionBarActivity {
         if (requestCode == SELECCION_CAMERA) {
             intent = new Intent(this, ActivityAnadirGift.class);
             intent.putExtra(ActivityAnadirGift.EXTRA_OPTION, ActivityAnadirGift.EXTRA_CAMERA);
-           startActivity(intent);
+            startActivity(intent);
         }
+
+        mBotonFlotante.collapse();
     }
 }
