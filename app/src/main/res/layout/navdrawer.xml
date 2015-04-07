@@ -32,7 +32,7 @@
             android:layout_marginTop="15dp" />
 
         <TextView
-            android:text="Nombre Usuario"
+            android:id="@+id/nav_drawer_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end|center_vertical"
@@ -41,8 +41,7 @@
             android:textSize="20sp"
             android:paddingLeft="8dp"
             android:paddingTop="25dp"
-            android:textColor="@android:color/white"
-            android:id="@+id/textView" />
+            android:textColor="@android:color/white" />
         
         <LinearLayout
             android:id="@+id/nav_drawer_user_layout_titles"
