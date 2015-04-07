@@ -7,7 +7,7 @@
             android:thicknessRatio="4"
             android:useLevel="false" >
 
-            <solid android:color="@color/transparenciaCamera" />
+            <solid android:color="@color/botonCamaraNormal" />
 
             <size android:width="200dp"
                 android:height="100dp"/>

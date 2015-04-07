@@ -3,8 +3,12 @@ package es.trigit.gitftask.Pantallas;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -12,8 +16,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -22,6 +24,8 @@ import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -36,6 +40,9 @@ public class ActivityPrincipal extends ActionBarActivity {
     private final int SELECCION_CAMERA = 0;
     private final int SELECCION_GALERIA = 1;
     private final int ANIMATION_TIME = 200;
+
+    //file donde se guarda temporalmente la imagen recortada de galeria
+    private File file;
 
     @InjectView(R.id.boton_flotante)
     FloatingActionsMenu mBotonFlotante;
@@ -128,32 +135,6 @@ public class ActivityPrincipal extends ActionBarActivity {
         crearNavDrawer();
     }
 
-    //-----------------------------------------------
-    //----------------- MENU --------------------
-    //-----------------------------------------------
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
     @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -189,17 +170,31 @@ public class ActivityPrincipal extends ActionBarActivity {
 
     @OnClick(R.id.boton_flotante_sin_imagen)
     public void pulsarSinImagen() {
-        Log.v(TAG, "SIN IMAGEN");
+        startActivity(new Intent(this, ActivityAnadirGift.class));
+        mBotonFlotante.collapse();
+
     }
 
     @OnClick(R.id.boton_flotante_galeria)
     public void pulsarGaleria() {
-        Log.v(TAG, "GALERIA");
+        Intent pickImageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickImageIntent.setType("image/*");
+        pickImageIntent.putExtra("crop", "true");
+        pickImageIntent.putExtra("outputX", 500);
+        pickImageIntent.putExtra("outputY", 500);
+        pickImageIntent.putExtra("aspectX", 1);
+        pickImageIntent.putExtra("aspectY", 1);
+        pickImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, getTempUri());
+        pickImageIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        pickImageIntent.putExtra("scale", true);
+        startActivityForResult(pickImageIntent, SELECCION_GALERIA);
+        mBotonFlotante.collapse();
     }
 
     @OnClick(R.id.boton_flotante_camara)
     public void pulsarCamara() {
-        startActivityForResult(new Intent(this, ActivityCamera.class),SELECCION_CAMERA);
+        startActivityForResult(new Intent(this, ActivityCamera.class), SELECCION_CAMERA);
+        mBotonFlotante.collapse();
     }
 
     //-----------------------------------------------
@@ -433,12 +428,47 @@ public class ActivityPrincipal extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Intent intent;
-        if (requestCode == SELECCION_CAMERA) {
+
+        if (requestCode == SELECCION_CAMERA && resultCode == RESULT_OK) {
             intent = new Intent(this, ActivityAnadirGift.class);
             intent.putExtra(AnadirGiftFragment.EXTRA_OPTION, AnadirGiftFragment.EXTRA_CAMERA);
             startActivity(intent);
+
+        }else if(requestCode == SELECCION_GALERIA && resultCode == RESULT_OK){
+            Bitmap decodeded = BitmapFactory.decodeFile(file.getAbsolutePath());
+            Globales.setFotoObtenida(decodeded);
+            file.delete();
+
+            intent = new Intent(this, ActivityAnadirGift.class);
+            intent.putExtra(AnadirGiftFragment.EXTRA_OPTION, AnadirGiftFragment.EXTRA_GALERIA);
+            startActivity(intent);
+
         }
 
-        mBotonFlotante.collapse();
+
+    }
+
+    //--------------------------------------------------------------------
+    //----------------- FUNCIONES PARA EL RECORTE GALERIA ----------------
+    //--------------------------------------------------------------------
+
+    private Uri getTempUri() {
+        return Uri.fromFile(getTempFile());
+    }
+
+    private File getTempFile() {
+
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+
+             file = new File(Environment.getExternalStorageDirectory(),"temporary_holder.jpg");
+            try {
+                file.createNewFile();
+            } catch (IOException e) {}
+
+            return file;
+        } else {
+
+            return null;
+        }
     }
 }

@@ -139,10 +139,14 @@ public class Globales {
         return null;
     }
 
+    public static int getNextIdRegalo()
+    {
+        return regalos.size()+1;
+    }
+
     public static ArrayList<Regalo> getRegalos() {
         return regalos;
     }
-
 
     public static Bitmap getFotoObtenida() {
         try {

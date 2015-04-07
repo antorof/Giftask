@@ -25,7 +25,6 @@ public class ActivityAnadirGift extends ActivitySecondLevel {
         Bundle extras = getIntent().getExtras();
         if(extras != null)
             opcion = extras.getInt("opcion");
-
         super.onCreate(savedInstanceState);
     }
 }

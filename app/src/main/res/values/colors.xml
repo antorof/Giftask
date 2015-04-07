@@ -56,8 +56,8 @@
     <color name="transparente">#00000000</color>
     <color name="transparenteCapa">#CCFFFFFF</color>
 
-    <color name="transparenciaCamera">#A0000000</color>
-
+    <color name="transparenciaCamera">#404040</color>
+    <color name="botonCamaraNormal">#202020</color>
 
     <!-- Colores de aplicacion base -->
     <color name="primary_ultra_dark">#7D4700</color>

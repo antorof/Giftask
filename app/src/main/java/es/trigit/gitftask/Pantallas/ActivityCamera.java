@@ -44,6 +44,7 @@ public class ActivityCamera extends ActionBarActivity implements SurfaceHolder.C
     private SurfaceHolder sHolder;
     private boolean isBackCamera;
     private int stateFlash;
+    private boolean safeToTakePicture = false;
 
 
     @InjectView(R.id.camera_preview)
@@ -78,7 +79,9 @@ public class ActivityCamera extends ActionBarActivity implements SurfaceHolder.C
 
         sHolder = maPreview.getHolder();
         sHolder.addCallback(this);
+        setResult(RESULT_CANCELED);
     }
+
 
     //--------------------------------------------------------------------------
     //----------------------------- BOTONES ------------------------------------
@@ -86,12 +89,17 @@ public class ActivityCamera extends ActionBarActivity implements SurfaceHolder.C
 
     @OnClick(R.id.btActivityCamera_boton)
     public void pulsarBotonFoto() {
-        mCamera.autoFocus(new Camera.AutoFocusCallback() {
-            @Override
-            public void onAutoFocus(boolean success, Camera camera) {
-                camera.takePicture(null, null, mCall);
-            }
-        });
+
+        if (safeToTakePicture){
+            mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                @Override
+                public void onAutoFocus(boolean success, Camera camera) {
+
+                    camera.takePicture(null, null, mCall);
+                }
+            });
+        }
+        safeToTakePicture = false;
     }
 
     @OnClick(R.id.spaceCameraPreview)
@@ -201,6 +209,7 @@ public class ActivityCamera extends ActionBarActivity implements SurfaceHolder.C
     @Override
     public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
         displayCamera();
+        safeToTakePicture = true;
     }
 
 
@@ -225,7 +234,7 @@ public class ActivityCamera extends ActionBarActivity implements SurfaceHolder.C
             Point point = new Point();
             display.getSize(point);
             int heightWindow = point.y;
-            int heigthTop = mPanelTop.getHeight();
+            int heigthTop = 0;
             int puntoCorte = heigthImg * heigthTop / heightWindow;
 
             Matrix matrix = new Matrix();

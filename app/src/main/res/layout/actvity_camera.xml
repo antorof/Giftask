@@ -5,52 +5,53 @@
 
     <FrameLayout
         android:id="@+id/camera_preview"
-        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/llActivityCamera_top">
 
     </FrameLayout>
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:background="@color/transparenciaCamera"
+        android:id="@+id/llActivityCamera_top"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivCameraPreview_alternar"
+            android:src="@drawable/ic_camera_switch_white_24dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Giftask"
+            android:id="@+id/textView3"
+            android:gravity="center_horizontal"
+            android:textColor="@color/blanco"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivCameraPreview_flash"
+            android:src="@mipmap/ic_flash_auto_white_24dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
-            android:background="@color/transparenciaCamera"
-            android:id="@+id/llActivityCamera_top"
-            android:padding="@dimen/activity_horizontal_margin">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivCameraPreview_alternar"
-                android:src="@drawable/ic_camera_switch_white_24dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Giftask"
-                android:id="@+id/textView3"
-                android:gravity="center_horizontal"
-                android:textColor="@color/blanco"
-                android:layout_weight="1" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivCameraPreview_flash"
-                android:src="@mipmap/ic_flash_auto_white_24dp"
-                android:layout_weight="1" />
-
-        </LinearLayout>
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/llActivityCamera_top">
 
         <es.trigit.gitftask.Vistas.SquareSpace
             android:layout_width="match_parent"
