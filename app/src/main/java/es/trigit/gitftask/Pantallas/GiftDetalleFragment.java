@@ -93,6 +93,9 @@ public class GiftDetalleFragment extends Fragment {
 
     @OnClick(R.id.gift_detalle_boton_me_gusta)
     public void pulsarMeGusta(ImageButton button){
+        mRegalo.addMeGusta(Globales.getUsuarioLogueado().getId());
+        Globales.addRegalo(mRegalo);
+        mNumeroMeGusta.setText(mRegalo.getNumLikes()+"");
         Log.v(TAG, "Me gusta");
     }
 

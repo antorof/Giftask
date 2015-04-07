@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,10 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
     {
         ButterKnife.inject(this, view);
 
-        Globales.iniciarDatos(getActivity());
+        if(!Globales.iniciado) {
+            Globales.iniciarDatos(getActivity());
+            Globales.iniciado = true;
+        }
         mDatos = Globales.getRegalos();
 
         mAdapter = new CustomGridViewAdapter(getActivity(), mDatos);
@@ -99,6 +103,13 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
                 mSwipeLayout.setRefreshing(false);
             }
         }, DELAY_REFRESH_ITEMS);
+    }
+
+    @Override
+    public void onResume() {
+        Log.v(TAG, "On resume");
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
     }
 
     /**
