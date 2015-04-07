@@ -35,6 +35,7 @@ public class CameraPreview extends SurfaceView {
     }
 
     private Size getMejorSize() {
+        Camera.Size mejorSize;
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         List<Camera.Size> supportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
@@ -43,6 +44,9 @@ public class CameraPreview extends SurfaceView {
         display.getSize(point);
         int witdhWindow = point.x;
         int heightWindow = point.y;
+        double ratioPantalla = witdhWindow * 1.0 / heightWindow * 1.0;
+        double mejorRatioDiferencia = Double.MAX_VALUE;
+        double diferenciaRatio;
 
 
         //Cogemos los que tengan un size como el de la pantalla
@@ -62,22 +66,28 @@ public class CameraPreview extends SurfaceView {
         }
 
         //Si no hay ningun size mayor al ancho de pantalla, devolvemos el primer size que se soporta
-        if (posiblesSizes.isEmpty())
-            return supportedPreviewSizes.get(0);
+        if (posiblesSizes.isEmpty()) {
+            posiblesSizes = supportedPreviewSizes;
 
+        }
         //Obtenemos el que mejor ratio tenga de entre los posibles
-        double mejorRatioDiferencia = Double.MAX_VALUE;
-        Camera.Size mejorSize = posiblesSizes.get(0);
-        double diferenciaRatio;
+        mejorRatioDiferencia = Double.MAX_VALUE;
+        mejorSize = posiblesSizes.get(0);
 
         for (Camera.Size size : posiblesSizes) {
             double ratioA = size.height * 1.0 / size.width * 1.0;
-            double ratioB = witdhWindow * 1.0 / heightWindow * 1.0;
-            diferenciaRatio = Math.abs(ratioA - ratioB);
+
+            diferenciaRatio = Math.abs(ratioA - ratioPantalla);
             if (diferenciaRatio < mejorRatioDiferencia) {
                 mejorSize = size;
             }
         }
+
+        //ajustamos el mejor size al ancho de la panalla
+        double ratio =mejorSize.width*1.0/mejorSize.height * 1.0;
+        mejorSize.height = witdhWindow;
+        mejorSize.width = (int) (heightWindow/ratio);
+
 
         return mejorSize;
 
