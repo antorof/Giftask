@@ -399,4 +399,14 @@ public class ActivityPrincipal extends ActionBarActivity {
         startActivity(new Intent(this, ActivityLogin.class));
         finish();
     }
+
+    /**
+     * Deshabilita el botón flotante (para clases que hereden de esta)
+     */
+    protected void deshabilitarBotonFlotante()
+    {
+        mBotonFlotante.setVisibility(View.GONE);
+        mBotonFlotante.setClickable(false);
+        mBotonFlotante.setEnabled(false);
+    }
 }

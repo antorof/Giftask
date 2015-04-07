@@ -37,6 +37,8 @@ public class ActivityGiftDetalle extends ActivityPrincipal {
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
+        deshabilitarBotonFlotante();
+
         Bundle bundle = new Bundle();
         bundle.putInt("REGALO_ID", idRegalo);
         GiftDetalleFragment f = GiftDetalleFragment.newInstance();
