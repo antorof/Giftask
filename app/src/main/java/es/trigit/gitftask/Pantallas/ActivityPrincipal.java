@@ -31,7 +31,8 @@ import es.trigit.gitftask.R;
 
 public class ActivityPrincipal extends ActionBarActivity {
     private final String TAG = "Activity Principal";
-
+    private final int SELECCION_CAMERA = 0;
+    private final int SELECCION_GALERIA = 1;
     private final int ANIMATION_TIME = 200;
 
     @InjectView(R.id.boton_flotante)
@@ -192,8 +193,12 @@ public class ActivityPrincipal extends ActionBarActivity {
 
     @OnClick(R.id.boton_flotante_camara)
     public void pulsarCamara() {
-        startActivity(new Intent(this, ActivityCamera.class));
+        startActivityForResult(new Intent(this, ActivityCamera.class),SELECCION_CAMERA);
     }
+
+    //-----------------------------------------------
+    //----------------- NAV DRAWER --------------------
+    //-----------------------------------------------
 
     /**
      * Crea el NavDrawer apropiadamente
@@ -408,5 +413,19 @@ public class ActivityPrincipal extends ActionBarActivity {
         mBotonFlotante.setVisibility(View.GONE);
         mBotonFlotante.setClickable(false);
         mBotonFlotante.setEnabled(false);
+    }
+
+    //-----------------------------------------------
+    //----------------- ACTIVITY RESULT -------------
+    //-----------------------------------------------
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Intent intent;
+        if (requestCode == SELECCION_CAMERA) {
+            intent = new Intent(this, ActivityAnadirGift.class);
+            intent.putExtra(ActivityAnadirGift.EXTRA_OPTION, ActivityAnadirGift.EXTRA_CAMERA);
+           startActivity(intent);
+        }
     }
 }
