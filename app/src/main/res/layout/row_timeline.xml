@@ -68,6 +68,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/gift_usuario_imagen"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:textSize="12sp"/>
 
             <TextView
@@ -76,6 +78,8 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/gift_usuario_imagen"
                 android:layout_alignBottom="@+id/gift_usuario_imagen"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:textSize="13sp"/>
 
         </RelativeLayout>
