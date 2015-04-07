@@ -275,6 +275,12 @@ public class ActivityPrincipal extends ActionBarActivity {
         if (mDrawerItemListContainer == null)
             return;
 
+        TextView tvNombre = (TextView) findViewById(R.id.nav_drawer_user_name);
+        TextView tvEmail = (TextView) findViewById(R.id.nav_drawer_user_email);
+
+        tvNombre.setText(Globales.getUsuarioLogueado().getNombre());
+        tvEmail.setText(Globales.getUsuarioLogueado().getEmail());
+
         mNavDrawerItemViews = new View[mNavDrawerItems.size()];
         mDrawerItemListContainer.removeAllViews();
 
