@@ -3,6 +3,7 @@ package es.trigit.gitftask.Pantallas;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import es.trigit.gitftask.R;
+import es.trigit.gitftask.Utiles.Globales;
 
 
 public class ActivityPrincipal extends ActionBarActivity {
@@ -334,6 +336,11 @@ public class ActivityPrincipal extends ActionBarActivity {
                         Log.v("Navdrawer", "Seleccionado DISCOVER");
                         break;
                     case AJUSTES:
+                        // BORRAR EN UN FUTURO; ES SOLO PARA PRUEBAS
+                        Globales.setFotoObtenida(BitmapFactory.decodeResource(ActivityPrincipal.this.getResources(), R.drawable.sloth));
+                        Intent intent = new Intent(ActivityPrincipal.this, ActivityAnadirGift.class);
+                        intent.putExtra(AnadirGiftFragment.EXTRA_OPTION, AnadirGiftFragment.EXTRA_CAMERA);
+                        startActivity(intent);
                         Log.v("Navdrawer", "Seleccionado AJUSTES");
                         break;
                     case CERRAR:
@@ -391,7 +398,7 @@ public class ActivityPrincipal extends ActionBarActivity {
                 break;
 
             case CABECERA:
-                ft.replace(R.id.contenedor, EditarPerfilFragment.newInstance());
+                startActivity(new Intent(this, ActivityEditarPerfil.class));
                 break;
         }
 
@@ -428,7 +435,7 @@ public class ActivityPrincipal extends ActionBarActivity {
         Intent intent;
         if (requestCode == SELECCION_CAMERA) {
             intent = new Intent(this, ActivityAnadirGift.class);
-            intent.putExtra(ActivityAnadirGift.EXTRA_OPTION, ActivityAnadirGift.EXTRA_CAMERA);
+            intent.putExtra(AnadirGiftFragment.EXTRA_OPTION, AnadirGiftFragment.EXTRA_CAMERA);
             startActivity(intent);
         }
 

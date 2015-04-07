@@ -44,9 +44,15 @@
             android:label="@string/title_activity_actvity_camera"
             android:screenOrientation="portrait" >
         </activity>
+
         <activity
             android:name=".Pantallas.ActivityAnadirGift"
             android:label="@string/title_activity_activity_anadir_regalo" >
+        </activity>
+
+        <activity
+            android:name=".Pantallas.ActivityEditarPerfil"
+            android:label="@string/title_activity_editar_perfil" >
         </activity>
     </application>
 
