@@ -78,7 +78,7 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     /**
      * Se ejecuta trás pulsar sobre un elemento del GridView.
-     * Se llama a la actividad {@link es.trigit.gitftask.Pantallas.GiftDetalleActivity}
+     * Se llama a la actividad {@link ActivityGiftDetalle}
      * enviándole la ID del regalo para que muestre el Regalo
      * que sobre el que se ha pulsado.
      * @param position Posición del item pulsado en el GridView.
@@ -87,7 +87,7 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void pulsarItemGrid(int position)
     {
         // TODO: enviar ID del regalo para cargarlo en la actividad detalle
-        Intent intent = new Intent(getActivity(), GiftDetalleActivity.class);
+        Intent intent = new Intent(getActivity(), ActivityGiftDetalle.class);
         intent.putExtra("REGALO_ID", mAdapter.getItem(position).getId());
         startActivity(intent);
     }

@@ -10,7 +10,7 @@ import es.trigit.gitftask.R;
 /**
  * Created by DavidGSola on 22/03/2015.
  */
-public class GiftDetalleActivity extends ActivityPrincipal {
+public class ActivityGiftDetalle extends ActivityPrincipal {
 
     private final String TAG = "ACTIVITY DETALLE REGALO";
 

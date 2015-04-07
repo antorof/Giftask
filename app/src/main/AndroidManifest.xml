@@ -30,7 +30,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".Pantallas.GiftDetalleActivity"
+            android:name=".Pantallas.ActivityGiftDetalle"
             android:label="@string/title_activity_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
