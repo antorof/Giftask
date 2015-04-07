@@ -2,6 +2,8 @@ package es.trigit.gitftask.Objetos;
 
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
+
 /**
  * Modela un regalo.
  * 
@@ -46,6 +48,9 @@ public class Regalo {
 
     /** Número de likes */
     private int numLikes;
+
+    /** Lista de Usuarios con me gusta*/
+    private ArrayList<Integer> idUsuariosMeGusta = new ArrayList<Integer>();
 
     public int getId() {
         return id;
@@ -144,10 +149,15 @@ public class Regalo {
     }
 
     public int getNumLikes() {
-        return numLikes;
+        return idUsuariosMeGusta.size();
     }
 
     public void setNumLikes(int numLikes) {
         this.numLikes = numLikes;
+    }
+
+    public void addMeGusta(int idUsuario)
+    {
+        idUsuariosMeGusta.add(idUsuario);
     }
 }

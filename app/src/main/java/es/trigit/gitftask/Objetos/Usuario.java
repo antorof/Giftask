@@ -2,6 +2,8 @@ package es.trigit.gitftask.Objetos;
 
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
+
 /**
  * Created by Georgevik on 17/03/2015.
  */
@@ -15,6 +17,7 @@ public class Usuario {
     private String localidad;
     private String fechaCumpleanos;
     private Bitmap imagen;
+    private ArrayList<Integer> misRegalos = new ArrayList<Integer>();
 
     public int getId() {
         return id;
@@ -86,5 +89,15 @@ public class Usuario {
 
     public void setImagen(Bitmap imagen) {
         this.imagen = imagen;
+    }
+
+    public ArrayList<Integer> getRegalos()
+    {
+        return misRegalos;
+    }
+
+    public void addRegalo(int id)
+    {
+        misRegalos.add(id);
     }
 }
