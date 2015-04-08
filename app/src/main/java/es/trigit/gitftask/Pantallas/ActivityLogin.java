@@ -23,6 +23,7 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 import com.facebook.widget.LoginButton;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
+import com.google.android.gms.analytics.HitBuilders;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -37,6 +38,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import es.trigit.gitftask.Objetos.Usuario;
 import es.trigit.gitftask.R;
+import es.trigit.gitftask.Utiles.GAHelper;
 import es.trigit.gitftask.Utiles.Globales;
 
 public class ActivityLogin extends FragmentActivity {
@@ -98,6 +100,7 @@ public class ActivityLogin extends FragmentActivity {
         mProgressDialog = new ProgressDialog(this);
         etNickname.setVisibility(View.INVISIBLE);
 
+        new GAHelper(this);
     }
 
     @OnClick(R.id.btActivityLogin_registrar)
@@ -156,6 +159,11 @@ public class ActivityLogin extends FragmentActivity {
     }
 
     private void muestraCargando() {
+        GAHelper.tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("LOGIN")
+                .setAction("Cargando...")
+                .build());
+
         // Oculto el teclado
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etPassword.getWindowToken(), 0);

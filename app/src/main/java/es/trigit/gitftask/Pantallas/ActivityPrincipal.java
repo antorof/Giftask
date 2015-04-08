@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.gms.analytics.HitBuilders;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import es.trigit.gitftask.R;
+import es.trigit.gitftask.Utiles.GAHelper;
 import es.trigit.gitftask.Utiles.Globales;
 
 
@@ -386,6 +388,11 @@ public class ActivityPrincipal extends ActionBarActivity {
      * @param fragmentTarget Fragment al que navegar
      */
     private void sustituirFragment(NAVDRAWER_ITEM fragmentTarget) {
+        GAHelper.tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("SUSTITUIR-FRAGMENT")
+                .setAction("Cambio fragment")
+                .build());
+
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.animator_fade_in, R.anim.animator_fade_out);
 
