@@ -390,7 +390,7 @@ public class ActivityPrincipal extends ActionBarActivity {
     private void sustituirFragment(NAVDRAWER_ITEM fragmentTarget) {
         GAHelper.tracker.send(new HitBuilders.EventBuilder()
                 .setCategory("SUSTITUIR-FRAGMENT")
-                .setAction("Cambio fragment")
+                .setAction(getString(NAVDRAWER_TITLE_RES_ID[fragmentTarget.ordinal()]))
                 .build());
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();

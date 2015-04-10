@@ -105,6 +105,11 @@ public class ActivityLogin extends FragmentActivity {
 
     @OnClick(R.id.btActivityLogin_registrar)
     public void pulsarRegistrar(Button button) {
+        GAHelper.tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("BTN-LOGIN")
+                .setAction("Pulsar Registrar")
+                .build());
+
         etNickname.setVisibility(View.VISIBLE);
         btRegistrar.setVisibility(View.INVISIBLE);
         mModoRegistrar = !mModoRegistrar;
@@ -113,11 +118,19 @@ public class ActivityLogin extends FragmentActivity {
     @OnClick(R.id.btActivityLogin_conectar)
     public void pulsarConectar(Button button) {
         if (mModoRegistrar) {
+            GAHelper.tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("ACTION-LOGIN")
+                    .setAction("Registro")
+                    .build());
+
             new ThreadRegistro().execute();
-
         } else {
-            new ThreadLogin().execute();
+            GAHelper.tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("ACTION-LOGIN")
+                    .setAction("Iniciar Sesión")
+                    .build());
 
+            new ThreadLogin().execute();
         }
     }
 
@@ -126,6 +139,10 @@ public class ActivityLogin extends FragmentActivity {
         if (!mModoRegistrar) {
             super.onBackPressed();
         } else {
+            GAHelper.tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("BTN-LOGIN")
+                    .setAction("Volver registrar")
+                    .build());
             mModoRegistrar = false;
             etNickname.setVisibility(View.INVISIBLE);
             btRegistrar.setVisibility(View.VISIBLE);
@@ -159,11 +176,6 @@ public class ActivityLogin extends FragmentActivity {
     }
 
     private void muestraCargando() {
-        GAHelper.tracker.send(new HitBuilders.EventBuilder()
-                .setCategory("LOGIN")
-                .setAction("Cargando...")
-                .build());
-
         // Oculto el teclado
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etPassword.getWindowToken(), 0);
