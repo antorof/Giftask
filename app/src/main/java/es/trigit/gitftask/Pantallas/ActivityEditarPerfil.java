@@ -5,7 +5,8 @@ import es.trigit.gitftask.R;
 /**
  * Created by DavidGSola on 07/04/2015.
  */
-public class ActivityEditarPerfil extends ActivitySecondLevel{
+public class ActivityEditarPerfil extends ActivitySecondLevel
+{
     @Override
     protected void setFragment() {
         getFragmentManager().beginTransaction()

@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.analytics.HitBuilders;
@@ -48,6 +49,12 @@ public class ActivityPrincipal extends ActionBarActivity {
 
     @InjectView(R.id.boton_flotante)
     FloatingActionsMenu mBotonFlotante;
+
+    @InjectView(R.id.nav_drawer_user_name)
+    TextView mUserName;
+
+    @InjectView(R.id.nav_drawer_user_email)
+    TextView mUserEmail;
 
     /**
      * NavDrawer
@@ -135,6 +142,14 @@ public class ActivityPrincipal extends ActionBarActivity {
                 .commit();
 
         crearNavDrawer();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        mUserName.setText(Globales.getUsuarioLogueado().getNickname());
+        mUserEmail.setText(Globales.getUsuarioLogueado().getEmail());
     }
 
     @Override
@@ -335,15 +350,16 @@ public class ActivityPrincipal extends ActionBarActivity {
                         Log.v("Navdrawer", "Seleccionado TIMELINE");
                         break;
                     case DISCOVER:
-                        sustituirFragment(NAVDRAWER_ITEM.DISCOVER);
-                        Log.v("Navdrawer", "Seleccionado DISCOVER");
-                        break;
+                    case MIS_REGALOS:
+                    case LO_TENGO:
+                    case ABOUT:
                     case AJUSTES:
+                        Toast.makeText(ActivityPrincipal.this,"Funcionalidad no desarrollada." ,Toast.LENGTH_SHORT ).show();
                         // BORRAR EN UN FUTURO; ES SOLO PARA PRUEBAS
-                        Globales.setFotoObtenida(BitmapFactory.decodeResource(ActivityPrincipal.this.getResources(), R.drawable.sloth));
-                        Intent intent = new Intent(ActivityPrincipal.this, ActivityAnadirGift.class);
-                        intent.putExtra(AnadirGiftFragment.EXTRA_OPTION, AnadirGiftFragment.EXTRA_CAMERA);
-                        startActivity(intent);
+//                        Globales.setFotoObtenida(BitmapFactory.decodeResource(ActivityPrincipal.this.getResources(), R.drawable.sloth));
+//                        Intent intent = new Intent(ActivityPrincipal.this, ActivityAnadirGift.class);
+//                        intent.putExtra(AnadirGiftFragment.EXTRA_OPTION, AnadirGiftFragment.EXTRA_CAMERA);
+//                        startActivity(intent);
                         Log.v("Navdrawer", "Seleccionado AJUSTES");
                         break;
                     case CERRAR:
@@ -388,7 +404,13 @@ public class ActivityPrincipal extends ActionBarActivity {
      * @param fragmentTarget Fragment al que navegar
      */
     private void sustituirFragment(NAVDRAWER_ITEM fragmentTarget) {
-        GAHelper.tracker.send(new HitBuilders.EventBuilder()
+        if(fragmentTarget == NAVDRAWER_ITEM.CABECERA)
+            GAHelper.tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("SUSTITUIR-FRAGMENT")
+                .setAction("CABECERA")
+                .build());
+        else
+            GAHelper.tracker.send(new HitBuilders.EventBuilder()
                 .setCategory("SUSTITUIR-FRAGMENT")
                 .setAction(getString(NAVDRAWER_TITLE_RES_ID[fragmentTarget.ordinal()]))
                 .build());

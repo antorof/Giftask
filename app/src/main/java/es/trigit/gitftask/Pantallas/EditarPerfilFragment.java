@@ -107,6 +107,7 @@ public class EditarPerfilFragment extends Fragment implements DatePickerFragment
         switch (item.getItemId()) {
             case R.id.iMenuEditarPerfil_ok:
                 saveUsuario();
+                this.getActivity().finish();
                 break;
         }
 
