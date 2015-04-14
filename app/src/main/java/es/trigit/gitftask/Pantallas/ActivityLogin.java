@@ -100,7 +100,7 @@ public class ActivityLogin extends FragmentActivity {
         mProgressDialog = new ProgressDialog(this);
         etNickname.setVisibility(View.INVISIBLE);
 
-        new GAHelper(this);
+        ((GAHelper)this.getApplication()).crearTracker();
     }
 
     @OnClick(R.id.btActivityLogin_registrar)
