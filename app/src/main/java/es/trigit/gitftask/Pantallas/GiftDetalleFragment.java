@@ -88,6 +88,16 @@ public class GiftDetalleFragment extends Fragment {
 
     @OnClick(R.id.gift_detalle_boton_repost)
     public void pulsarRepost(ImageButton button){
+        Regalo r = new Regalo();
+        r.setId(Globales.getNextIdRegalo());
+        r.setTitulo(mRegalo.getTitulo());
+        r.setImagen(mRegalo.getImagen());
+        r.setPrecio(mRegalo.getPrecio());
+        r.setNumLikes(0);
+        r.setUsuarioPropietario(Globales.getUsuarioLogueado());
+
+        Globales.addRegalo(r);
+
         Log.v(TAG, "Repost");
     }
 
