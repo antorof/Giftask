@@ -22,11 +22,14 @@
         android:paddingBottom="8dp"
         android:id="@+id/rlNavDrawer_cabecera">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/nav_drawer_image_user"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_launcher"
+            app:border_width="2dp"
+            app:border_color="@color/blanco"
+            android:src="@drawable/user_undefined"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="15dp" />
