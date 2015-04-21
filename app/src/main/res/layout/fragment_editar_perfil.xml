@@ -1,101 +1,110 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     tools:context="es.trigit.gitftask.Pantallas.EditarPerfilFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
 
 
-    <ScrollView
+    <com.nirhart.parallaxscroll.views.ParallaxScrollView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:parallax_factor="1.9"
         android:id="@+id/scrollView" >
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="fill_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
                 android:id="@+id/ivFragmentEditarPerfil_imagen"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/user_undefined" />
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/etFragmentEditarPerfil_nickname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nickname"
-                android:maxLines="1"
-                android:singleLine="true"
-                app:floatingLabel="highlight"/>
+            <LinearLayout
+                android:background="@color/gris100"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/etFragmentEditarPerfil_nombre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nombre y apellidos"
-                android:maxLines="1"
-                android:singleLine="true"
-                app:floatingLabel="highlight"/>
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/etFragmentEditarPerfil_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nickname"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    app:floatingLabel="highlight"/>
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/etFragmentEditarPerfil_localidad"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Localidad"
-                android:maxLines="1"
-                android:singleLine="true"
-                app:floatingLabel="highlight"/>
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/etFragmentEditarPerfil_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre y apellidos"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    app:floatingLabel="highlight"/>
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/etFragmentEditarPerfil_cumpleanos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Fecha de cumpleaños"
-                android:maxLines="1"
-                android:singleLine="true"
-                app:floatingLabel="highlight"
-                android:clickable="true"
-                android:editable="false"
-                android:focusable="false" />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/etFragmentEditarPerfil_localidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Localidad"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    app:floatingLabel="highlight"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Sexo"
-                android:id="@+id/textView2"
-                android:textSize="12dp"
-                android:textColor="@color/accent" />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/etFragmentEditarPerfil_cumpleanos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fecha de cumpleaños"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    app:floatingLabel="highlight"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:focusable="false" />
 
-            <RadioGroup
-                android:id="@+id/rbFragmentEditarPerfil_sexo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rdFragmentEditarPerfil_hombre"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hombre"
-                    android:checked="true"
-                    android:layout_marginRight="16dp" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Sexo"
+                    android:id="@+id/textView2"
+                    android:textSize="12dp"
+                    android:textColor="@color/accent" />
 
-                <RadioButton
-                    android:id="@+id/rdFragmentEditarPerfil_Mujer"
+                <RadioGroup
+                    android:id="@+id/rbFragmentEditarPerfil_sexo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mujer" />
+                    android:orientation="horizontal">
 
-            </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/rdFragmentEditarPerfil_hombre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hombre"
+                        android:checked="true"
+                        android:layout_marginRight="16dp" />
 
+                    <RadioButton
+                        android:id="@+id/rdFragmentEditarPerfil_Mujer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mujer" />
+
+                </RadioGroup>
+            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </com.nirhart.parallaxscroll.views.ParallaxScrollView>
 
 </LinearLayout>
 
