@@ -68,6 +68,8 @@ public class AnadirGiftFragment extends Fragment {
                 break;
 
             case EXTRA_GALERIA:
+                mImagenRegalo = Globales.getFotoObtenida();
+                ivImagen.setImageBitmap(mImagenRegalo);
                 break;
 
             default:

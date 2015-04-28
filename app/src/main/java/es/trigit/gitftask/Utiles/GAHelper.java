@@ -18,9 +18,9 @@ public class GAHelper extends Application{
         super();
     }
 
-    public synchronized void crearTracker()
-    {
+    public synchronized void crearTracker() {
         if (tracker == null)
             tracker = GoogleAnalytics.getInstance(this).newTracker(R.xml.app_tracker);
+
     }
 }
