@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/timeline_swipe_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <GridView
+        android:id="@+id/timeline_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="2"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="5dp"
+        android:padding="5dp"
+        android:clipToPadding="false"
+        android:stretchMode="columnWidth"
+        android:gravity="center"/>
+
+</android.support.v4.widget.SwipeRefreshLayout>
