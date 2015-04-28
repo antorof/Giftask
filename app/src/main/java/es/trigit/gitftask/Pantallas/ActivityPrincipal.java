@@ -179,8 +179,8 @@ public class ActivityPrincipal extends ActionBarActivity {
     @OnClick(R.id.rlNavDrawer_cabecera)
     public void pulsarCabecera() {
         navDrawerItemActivo = NAVDRAWER_ITEM.CABECERA;
-        getSupportActionBar().setTitle("Editar perfil"); // ToDo Esto no debe hacerse asi
-        formatearColorItemsNavDrawer(mDrawerItemListContainer);
+//        getSupportActionBar().setTitle("Editar perfil"); // ToDo Esto no debe hacerse asi
+//        formatearColorItemsNavDrawer(mDrawerItemListContainer);
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         sustituirFragment(NAVDRAWER_ITEM.CABECERA);
     }
