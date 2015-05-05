@@ -10,13 +10,12 @@
         android:id="@+id/timeline_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="1"
-        android:verticalSpacing="16dp"
-        android:horizontalSpacing="16dp"
+        android:numColumns="2"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="5dp"
         android:padding="5dp"
         android:clipToPadding="false"
         android:stretchMode="columnWidth"
-        android:gravity="center"
-        />
+        android:gravity="center"/>
 
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -34,6 +34,7 @@ public class Globales {
         Usuario u1 = new Usuario();
         u1.setId(0);
         u1.setNombre("David González Sola");
+        u1.setNickname("Davilillo");
         u1.setEmail("davgs@correo.ugr.es");
         u1.setSexo(true);
         u1.setImagen(BitmapFactory.decodeResource(context.getResources(), R.drawable.borrar_persona_ejemplo));
@@ -89,6 +90,8 @@ public class Globales {
         regalos.add(r2);
         regalos.add(r3);
         regalos.add(r4);
+
+        setUsuarioLogueado(u1);
     }
 
     private static ArrayList<Usuario> usuarios = new ArrayList<Usuario>();

@@ -351,6 +351,9 @@ public class ActivityPrincipal extends ActionBarActivity {
                         break;
                     case DISCOVER:
                     case MIS_REGALOS:
+                        sustituirFragment(NAVDRAWER_ITEM.MIS_REGALOS);
+                        Log.v("Navdrawer", "Seleccionado MIS REGALOS");
+                        break;
                     case LO_TENGO:
                     case ABOUT:
                     case AJUSTES:
@@ -421,6 +424,10 @@ public class ActivityPrincipal extends ActionBarActivity {
         switch (fragmentTarget) {
             case TIMELINE:
                 ft.replace(R.id.contenedor, TimelineFragment.newInstance());
+                break;
+
+            case MIS_REGALOS:
+                ft.replace(R.id.contenedor, MisRegalosFragment.newInstance());
                 break;
 
             case DISCOVER:
