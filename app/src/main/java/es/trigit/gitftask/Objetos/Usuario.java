@@ -17,7 +17,9 @@ public class Usuario {
     private String localidad;
     private String fechaCumpleanos;
     private Bitmap imagen;
-    private ArrayList<Integer> misRegalos = new ArrayList<Integer>();
+    private ArrayList<Regalo> misRegalos = new ArrayList<>();
+    private ArrayList<Usuario> seguidores = new ArrayList<>();
+    private ArrayList<Usuario> siguiendo = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -91,13 +93,29 @@ public class Usuario {
         this.imagen = imagen;
     }
 
-    public ArrayList<Integer> getRegalos()
+    public ArrayList<Regalo> getRegalos()
     {
         return misRegalos;
     }
 
-    public void addRegalo(int id)
+    public void addRegalo(Regalo regalo)
     {
-        misRegalos.add(id);
+        misRegalos.add(regalo);
+    }
+
+    public ArrayList<Usuario> getSeguidores() {
+        return seguidores;
+    }
+
+    public void setSeguidores(ArrayList<Usuario> seguidores) {
+        this.seguidores = seguidores;
+    }
+
+    public ArrayList<Usuario> getSiguiendo() {
+        return siguiendo;
+    }
+
+    public void setSiguiendo(ArrayList<Usuario> siguiendo) {
+        this.siguiendo = siguiendo;
     }
 }

@@ -15,7 +15,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -118,30 +121,59 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
     public class CustomGridViewAdapter extends ArrayAdapter<Regalo>
     {
         private final Context context;
+        private LayoutInflater inflater;
 
         public CustomGridViewAdapter(Context context, ArrayList<Regalo> values)
         {
             super(context, R.layout.row_timeline, values);
             this.context = context;
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent)
         {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View itemView = inflater.inflate(R.layout.row_timeline, parent, false);
+            View rowView = convertView;
+            Regalo regalo = getItem(position);
+            if (rowView == null) {
+                rowView = inflater.inflate(R.layout.row_timeline,parent, false);
 
-            TextView numeroMeGustas = (TextView) itemView.findViewById(R.id.gift_numero_me_gustas);
-            TextView nombreRegalo = (TextView) itemView.findViewById(R.id.gift_nombre);
-            TextView nombreUsuario = (TextView) itemView.findViewById(R.id.gift_usuario_nombre);
-            ImageView imagenRegalo = (ImageView) itemView.findViewById(R.id.gift_image);
+                //reusamos la vista
+                ViewHolderTimeline viewHolder = new ViewHolderTimeline();
+                viewHolder.tvNumeroMeGustas = (TextView) rowView.findViewById(R.id.gift_numero_me_gustas);
+                viewHolder.tvNombreRegalo = (TextView) rowView.findViewById(R.id.gift_nombre);
+                viewHolder.ivImagenRegalo = (ImageView) rowView.findViewById(R.id.gift_image);
+                viewHolder.tvNombreUsuario = (TextView) rowView.findViewById(R.id.gift_usuario_nombre);
+                viewHolder.rlCampoUsuario = (RelativeLayout) rowView.findViewById(R.id.rlRowTimeline_usuario);
+                viewHolder.rlCampoUsuario.setTag(regalo);
+                viewHolder.rlCampoUsuario.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Regalo reg = (Regalo) view.getTag();
+                        Intent intent = new Intent(TimelineFragment.this.getActivity(), ActivityPerfilAjeno.class);
+                        Globales.setUsuarioConsulta(reg.getUsuarioPropietario());
+                        startActivity(intent);
+                    }
+                });
 
-            numeroMeGustas.setText(getItem(position).getNumLikes()+" ");
-            nombreRegalo.setText(getItem(position).getTitulo());
-            nombreUsuario.setText(getItem(position).getUsuarioPropietario().getNombre());
-            imagenRegalo.setImageBitmap(getItem(position).getImagen());
+                viewHolder.position = position;
+                rowView.setTag(viewHolder);
+            }
 
-            return itemView;
+            //rellenamos los datos
+            ViewHolderTimeline holder = (ViewHolderTimeline) rowView.getTag();
+            holder.tvNumeroMeGustas.setText(regalo.getNumLikes()+" ");
+            holder.tvNombreRegalo.setText(regalo.getTitulo());
+            holder.tvNombreUsuario.setText(regalo.getUsuarioPropietario().getNombre());
+
+
+            if(getItem(position).getImagen() == null){
+                Picasso.with(context).load(regalo.getUrlImagen()).into(holder.ivImagenRegalo);
+            }else {
+                holder.ivImagenRegalo.setImageBitmap(regalo.getImagen());
+            }
+
+            return rowView;
         }
     }
 
@@ -172,5 +204,17 @@ public class TimelineFragment extends Fragment implements SwipeRefreshLayout.OnR
             datos.add(r);
         }
         return datos;
+    }
+
+    /**
+     * Holder para evitar recargar los item de cada lista y reusar las views
+     */
+    public static class ViewHolderTimeline {
+        public TextView tvNumeroMeGustas;
+        public TextView tvNombreRegalo;
+        public ImageView ivImagenRegalo;
+        public TextView tvNombreUsuario;
+        public RelativeLayout rlCampoUsuario;
+        public int position;
     }
 }

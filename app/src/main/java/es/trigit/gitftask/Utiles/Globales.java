@@ -53,7 +53,7 @@ public class Globales {
         r1.setUsuarioPropietario(u1);
         r1.setPrecio(50);
         r1.setDireccionTienda("C/ Piruleta 18");
-        u1.addRegalo(r1.getId());
+        u1.addRegalo(r1);
 
         Regalo r2 = new Regalo();
         r2.setId(1);
@@ -62,7 +62,7 @@ public class Globales {
         r2.setUsuarioPropietario(u2);
         r2.setPrecio(32);
         r2.setDireccionTienda("C/ Falsa 123");
-        u2.addRegalo(r2.getId());
+        u2.addRegalo(r2);
 
         Regalo r3 = new Regalo();
         r3.setId(2);
@@ -72,7 +72,7 @@ public class Globales {
         r3.setUsuarioPropietario(u2);
         r3.setPrecio(42);
         r3.setDireccionTienda("C/ Aquí mismo 13");
-        u2.addRegalo(r3.getId());
+        u2.addRegalo(r3);
 
         Regalo r4 = new Regalo();
         r4.setId(3);
@@ -81,7 +81,7 @@ public class Globales {
         r4.setUsuarioPropietario(u2);
         r4.setPrecio(3);
         r4.setDireccionTienda("C/ Falsa 123");
-        u2.addRegalo(r4.getId());
+        u2.addRegalo(r4);
 
         usuarios.add(u1);
         usuarios.add(u2);
@@ -163,5 +163,21 @@ public class Globales {
 
     public static void setFotoObtenida(Bitmap fotoObtenida) {
         Globales.fotoObtenida = fotoObtenida;
+    }
+
+    /**
+     * Devuelve el usuario que se esta consultando
+     * @return
+     */
+    public static Usuario getUsuarioConsulta() {
+        return usuarioConsulta;
+    }
+
+    /**
+     * Usuario el cual va a ser consultado, es decir, que se va a acceder a su perfil
+     * @param usuario
+     */
+    public static void setUsuarioConsulta(Usuario usuario){
+        usuarioConsulta = usuario;
     }
 }

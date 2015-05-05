@@ -59,6 +59,11 @@
             android:label="@string/title_activity_editar_perfil" >
         </activity>
 
+        <activity
+            android:name=".Pantallas.ActivityPerfilAjeno"
+            android:label="@string/title_activity_editar_perfil" >
+        </activity>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>

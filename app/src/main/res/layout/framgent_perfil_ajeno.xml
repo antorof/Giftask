@@ -135,4 +135,17 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <GridView
+        android:id="@+id/perfil_ajeno_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="1"
+        android:verticalSpacing="16dp"
+        android:horizontalSpacing="16dp"
+        android:padding="5dp"
+        android:clipToPadding="false"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        />
 </LinearLayout>

@@ -51,6 +51,15 @@ public class Regalo {
 
     /** Lista de Usuarios con me gusta*/
     private ArrayList<Integer> idUsuariosMeGusta = new ArrayList<Integer>();
+    private String urlImagen;
+
+    public String getUrlImagen() {
+        return urlImagen;
+    }
+
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
+    }
 
     public int getId() {
         return id;
