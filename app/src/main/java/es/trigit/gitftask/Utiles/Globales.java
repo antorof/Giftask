@@ -16,6 +16,7 @@ import es.trigit.gitftask.R;
 public class Globales {
     public static boolean iniciado = false;
     private static Usuario usuarioLogueado;
+    private static Usuario usuarioConsulta;
     private static Bitmap fotoObtenida;
 
     public static Usuario getUsuarioLogueado() {
