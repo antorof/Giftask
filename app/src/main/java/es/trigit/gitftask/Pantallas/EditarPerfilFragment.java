@@ -76,7 +76,7 @@ public class EditarPerfilFragment extends Fragment implements DatePickerFragment
         etNombre.setText(Globales.getUsuarioLogueado().getNombre());
         etLocalidad.setText(Globales.getUsuarioLogueado().getLocalidad());
         etCumpleanos.setText(Globales.getUsuarioLogueado().getFechaCumpleanos());
-        etNickname.setText(Globales.getUsuarioLogueado().getNickname());
+        etNickname.setText(Globales.getUsuarioLogueado().getUsername());
         if (!Globales.getUsuarioLogueado().isMale()) {
             rbHombre.setChecked(true);
         } else {
@@ -116,14 +116,14 @@ public class EditarPerfilFragment extends Fragment implements DatePickerFragment
     }
 
     public void saveUsuario() {
-        Globales.getUsuarioLogueado().setFechaCumpleano(etCumpleanos.getText().toString());
+        Globales.getUsuarioLogueado().setFechaCumpleanos(etCumpleanos.getText().toString());
         Globales.getUsuarioLogueado().setLocalidad(etLocalidad.getText().toString());
-        Globales.getUsuarioLogueado().setNickname(etNickname.getText().toString());
+        Globales.getUsuarioLogueado().setUsername(etNickname.getText().toString());
         Globales.getUsuarioLogueado().setNombre(etNombre.getText().toString());
         if (rbMujer.isChecked())
-            Globales.getUsuarioLogueado().setSexo(false);
+            Globales.getUsuarioLogueado().setIsMale(false);
         else
-            Globales.getUsuarioLogueado().setSexo(true);
+            Globales.getUsuarioLogueado().setIsMale(true);
 
         Toast.makeText(this.getActivity(), "Perfil de usuario guardado", Toast.LENGTH_LONG).show();
     }

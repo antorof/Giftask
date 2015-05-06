@@ -60,13 +60,13 @@ public class FragmentPerfilAjeno extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         ButterKnife.inject(this, view);
         civImagen.setImageBitmap(usuario.getImagen());
-        tvUsername.setText(usuario.getNickname());
-        tvNumeroGift.setText(usuario.getRegalos().size() + "");
+        tvUsername.setText(usuario.getUsername());
+        tvNumeroGift.setText(usuario.getMisRegalos().size() + "");
         tvEmail.setText(usuario.getEmail());
         tvSiguiendo.setText(usuario.getSiguiendo().size()+"");
         tvSeguidores.setText(usuario.getSeguidores().size()+"");
 
-        mAdapter = new CustomGridViewAdapter(getActivity(), usuario.getRegalos());
+        mAdapter = new CustomGridViewAdapter(getActivity(), usuario.getMisRegalos());
         mGridView.setAdapter(mAdapter);
 
     }

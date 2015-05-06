@@ -66,7 +66,7 @@ public class MisRegalosFragment extends Fragment implements SwipeRefreshLayout.O
             Globales.iniciado = true;
         }
 
-        ArrayList<Regalo> id_regalos = Globales.getUsuarioLogueado().getRegalos();
+        ArrayList<Regalo> id_regalos = Globales.getUsuarioLogueado().getMisRegalos();
 
 
         mAdapter = new CustomGridViewAdapter(getActivity(), crearDatosTesting(10));

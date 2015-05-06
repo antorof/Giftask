@@ -50,7 +50,7 @@ public class Regalo {
     private int numLikes;
 
     /** Lista de Usuarios con me gusta*/
-    private ArrayList<Integer> idUsuariosMeGusta = new ArrayList<Integer>();
+    private ArrayList<String> idUsuariosMeGusta = new ArrayList<String>();
     private String urlImagen;
 
     public String getUrlImagen() {
@@ -165,7 +165,7 @@ public class Regalo {
         this.numLikes = numLikes;
     }
 
-    public void addMeGusta(int idUsuario)
+    public void addMeGusta(String idUsuario)
     {
         idUsuariosMeGusta.add(idUsuario);
     }

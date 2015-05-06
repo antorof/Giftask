@@ -32,18 +32,18 @@ public class Globales {
         regalos.clear();
 
         Usuario u1 = new Usuario();
-        u1.setId(0);
+        u1.set_id("0");
         u1.setNombre("David González Sola");
-        u1.setNickname("Davilillo");
+        u1.setUsername("Davilillo");
         u1.setEmail("davgs@correo.ugr.es");
-        u1.setSexo(true);
+        u1.setIsMale(true);
         u1.setImagen(BitmapFactory.decodeResource(context.getResources(), R.drawable.borrar_persona_ejemplo));
 
         Usuario u2 = new Usuario();
-        u2.setId(1);
+        u2.set_id("1");
         u2.setNombre("Marta Salinas Cabeza");
         u2.setEmail("inventado@correo.ugr.es");
-        u2.setSexo(false);
+        u2.setIsMale(false);
         u2.setImagen(BitmapFactory.decodeResource(context.getResources(), R.drawable.borrar_persona_ejemplo));
 
         Regalo r1 = new Regalo();
@@ -68,7 +68,7 @@ public class Globales {
         r3.setId(2);
         r3.setImagen(BitmapFactory.decodeResource(context.getResources(), R.drawable.nav_drawer_background));
         r3.setTitulo("Fondo poyuo");
-        r3.addMeGusta(u1.getId());
+        r3.addMeGusta(u1.get_id());
         r3.setUsuarioPropietario(u2);
         r3.setPrecio(42);
         r3.setDireccionTienda("C/ Aquí mismo 13");
@@ -96,9 +96,9 @@ public class Globales {
 
     private static ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 
-    public static Usuario getUsuario(int id) {
+    public static Usuario getUsuario(String id) {
         for (Usuario u : usuarios)
-            if (u.getId() == id)
+            if (u.get_id().equals(id))
                 return u;
 
         return null;

@@ -148,7 +148,7 @@ public class ActivityPrincipal extends ActionBarActivity {
     protected void onResume()
     {
         super.onResume();
-        mUserName.setText(Globales.getUsuarioLogueado().getNickname());
+        mUserName.setText(Globales.getUsuarioLogueado().getUsername());
         mUserEmail.setText(Globales.getUsuarioLogueado().getEmail());
     }
 

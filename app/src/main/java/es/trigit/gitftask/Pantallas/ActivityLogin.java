@@ -231,7 +231,7 @@ public class ActivityLogin extends FragmentActivity {
 
             mUsuario.setEmail(etEmail.getText().toString());
 
-            mUsuario.setNickname("NickLogin");
+            mUsuario.setUsername("NickLogin");
             mProgressDialog.setMessage("Registrando usuario...");
 
 //            mProgressDialog.show();
@@ -259,7 +259,7 @@ public class ActivityLogin extends FragmentActivity {
         protected void onPreExecute() {
             muestraCargando();
             mUsuario.setEmail(etEmail.getText().toString());
-            mUsuario.setNickname(etNickname.getText().toString());
+            mUsuario.setUsername(etNickname.getText().toString());
 
             mProgressDialog.setMessage("Iniciando sesión...");
 //            mProgressDialog.show();
@@ -302,9 +302,9 @@ public class ActivityLogin extends FragmentActivity {
                             try {
                                 GraphObject user = response.getGraphObject();
                                 mUsuario.setEmail(user.asMap().get("email").toString());
-                                mUsuario.setFechaCumpleano(user.asMap().get("birthday").toString());
+                                mUsuario.setFechaCumpleanos(user.asMap().get("birthday").toString());
                                 mUsuario.setNombre(user.asMap().get("first_name").toString() + " " + user.asMap().get("last_name").toString());
-                                mUsuario.setSexo(user.asMap().get("gender").toString());
+                                mUsuario.setGender(user.asMap().get("gender").toString());
                                 mUsuario.setLocalidad(user.asMap().get("locale").toString());
                                 mUsuario.setImagen(Picasso.with(mActivity).load("https://graph.facebook.com/" + user.asMap().get("id").toString() + "/picture?type=large").get());
 
