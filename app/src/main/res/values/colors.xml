@@ -54,6 +54,7 @@
     <color name="blanco">#ffffff</color>
     <color name="negro">#000000</color>
     <color name="transparente">#00000000</color>
+    <color name="transparente55">#00000055</color>
     <color name="transparenteCapa">#CCFFFFFF</color>
 
     <color name="transparenciaCamera">#404040</color>

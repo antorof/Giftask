@@ -29,22 +29,41 @@
                 android:orientation="horizontal"
                 android:layout_alignBottom="@+id/gift_detalle_imagen">
 
-                <ImageButton
-                    android:id="@+id/gift_detalle_boton_repost"
+                <FrameLayout android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1" >
+
+                    <at.markushi.ui.RevealColorView
+                        android:id="@+id/reveal_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@color/transparente"/>
+
+                    <ImageButton
+                        android:id="@+id/gift_detalle_boton_repost"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/transparente"
+                        android:src="@drawable/ic_repost_white"/>
+                </FrameLayout>
+
+                <RelativeLayout
+                    android:id="@+id/gift_detalle_layout_me_gusta"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:background="@color/transparente"
-                    android:src="@drawable/ic_repost_white"/>
+                    android:clickable="true">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1">
+                    <at.markushi.ui.RevealColorView
+                        android:id="@+id/reveal_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@color/transparente"/>
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/gift_detalle_boton_me_gusta"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -57,32 +76,54 @@
                         android:id="@+id/gift_detalle_numero_me_gusta"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/gift_detalle_boton_me_gusta"
+                        android:gravity="center_vertical"
                         style="@style/NavDrawerSubtitleText"
-                        android:text="16"/>
+                        android:text="16"
+                        android:layout_alignTop="@+id/gift_detalle_boton_me_gusta"
+                        android:layout_toRightOf="@+id/gift_detalle_boton_me_gusta"
+                        android:layout_toEndOf="@+id/gift_detalle_boton_me_gusta" />
 
                 </RelativeLayout>
 
-                <ImageButton
-                    android:id="@+id/gift_detalle_boton_lo_tengo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@color/transparente"
-                    android:src="@drawable/ic_lotengo_white"/>
+                <FrameLayout android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1" >
 
-                <ImageButton
-                    android:id="@+id/gift_detalle_boton_compartir"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@color/transparente"
-                    android:src="@drawable/abc_ic_menu_share_mtrl_alpha"/>
+                    <at.markushi.ui.RevealColorView
+                        android:id="@+id/reveal_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@color/transparente"/>
+
+                    <ImageButton
+                        android:id="@+id/gift_detalle_boton_lo_tengo"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/transparente"
+                        android:src="@drawable/ic_lotengo_white"/>
+                </FrameLayout>
+
+                <FrameLayout android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1" >
+
+                    <at.markushi.ui.RevealColorView
+                        android:id="@+id/reveal_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@color/transparente"/>
+
+                    <ImageButton
+                        android:id="@+id/gift_detalle_boton_compartir"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/transparente"
+                        android:src="@drawable/abc_ic_menu_share_mtrl_alpha"/>
+                </FrameLayout>
 
             </LinearLayout>
-
         </RelativeLayout>
 
         <!-- DETALLE DEL REGALO -->

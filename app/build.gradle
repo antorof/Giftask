@@ -38,4 +38,5 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.9.0'
     compile 'de.hdodenhof:circleimageview:1.2.2'
     compile 'com.github.nirhart:parallaxscroll:1.0'
+    compile 'com.github.markushi:android-ui:1.2'
 }
