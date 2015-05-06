@@ -39,4 +39,6 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:1.2.2'
     compile 'com.github.nirhart:parallaxscroll:1.0'
     compile 'com.github.markushi:android-ui:1.2'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
 }
