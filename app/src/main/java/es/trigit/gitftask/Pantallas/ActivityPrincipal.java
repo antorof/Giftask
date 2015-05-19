@@ -20,11 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.analytics.HitBuilders;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +51,9 @@ public class ActivityPrincipal extends ActionBarActivity {
 
     @InjectView(R.id.boton_flotante)
     FloatingActionsMenu mBotonFlotante;
+
+    @InjectView(R.id.sombra)
+    RelativeLayout sombra;
 
     @InjectView(R.id.nav_drawer_user_name)
     TextView mUserName;
@@ -142,6 +147,26 @@ public class ActivityPrincipal extends ActionBarActivity {
                 .commit();
 
         crearNavDrawer();
+
+        mBotonFlotante.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override
+            public void onMenuExpanded() {
+                muestraSombra();
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+                ocultaSombra();
+            }
+        });
+
+        sombra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ocultaSombra();
+                mBotonFlotante.collapse();
+            }
+        });
     }
 
     @Override
@@ -172,6 +197,17 @@ public class ActivityPrincipal extends ActionBarActivity {
             super.onBackPressed();
     }
 
+    protected void muestraSombra() {
+        ObjectAnimator animTitle = ObjectAnimator.ofFloat(sombra, "alpha", 0.0f, 0.8f).setDuration(200);
+        sombra.setAlpha(0.0f);
+        sombra.setVisibility(View.VISIBLE);
+        animTitle.start();
+    }
+    protected void ocultaSombra() {
+        ObjectAnimator animTitle = ObjectAnimator.ofFloat(sombra, "alpha", 0.8f, 0.0f).setDuration(200);
+        animTitle.start();
+        sombra.setVisibility(View.GONE);
+    }
     //-----------------------------------------------
     //----------------- ON CLICK --------------------
     //-----------------------------------------------
