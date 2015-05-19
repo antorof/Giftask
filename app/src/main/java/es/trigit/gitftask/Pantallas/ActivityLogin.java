@@ -44,6 +44,9 @@ import es.trigit.gitftask.Utiles.GAHelper;
 import es.trigit.gitftask.Utiles.Globales;
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+
+import com.google.gson.Gson;
 
 public class ActivityLogin extends FragmentActivity {
 

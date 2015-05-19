@@ -53,7 +53,7 @@ public class ActivityPrincipal extends ActionBarActivity {
     FloatingActionsMenu mBotonFlotante;
 
     @InjectView(R.id.sombra)
-    RelativeLayout sombra;
+    RelativeLayout overlay;
 
     @InjectView(R.id.nav_drawer_user_name)
     TextView mUserName;
@@ -151,22 +151,15 @@ public class ActivityPrincipal extends ActionBarActivity {
         mBotonFlotante.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
             public void onMenuExpanded() {
-                muestraSombra();
+                muestraOverlay();
             }
 
             @Override
             public void onMenuCollapsed() {
-                ocultaSombra();
+                ocultaOverlay();
             }
         });
 
-        sombra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ocultaSombra();
-                mBotonFlotante.collapse();
-            }
-        });
     }
 
     @Override
@@ -197,16 +190,23 @@ public class ActivityPrincipal extends ActionBarActivity {
             super.onBackPressed();
     }
 
-    protected void muestraSombra() {
-        ObjectAnimator animTitle = ObjectAnimator.ofFloat(sombra, "alpha", 0.0f, 0.8f).setDuration(200);
-        sombra.setAlpha(0.0f);
-        sombra.setVisibility(View.VISIBLE);
-        animTitle.start();
+    protected void muestraOverlay() {
+        ObjectAnimator anim = ObjectAnimator.ofFloat(overlay, "alpha", 0.0f, 0.8f).setDuration(200);
+//        overlay.setVisibility(View.VISIBLE);
+        overlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBotonFlotante.collapse();
+            }
+        });
+        anim.start();
     }
-    protected void ocultaSombra() {
-        ObjectAnimator animTitle = ObjectAnimator.ofFloat(sombra, "alpha", 0.8f, 0.0f).setDuration(200);
-        animTitle.start();
-        sombra.setVisibility(View.GONE);
+    protected void ocultaOverlay() {
+        ObjectAnimator anim = ObjectAnimator.ofFloat(overlay, "alpha", 0.8f, 0.0f).setDuration(200);
+        anim.start();
+//        overlay.setVisibility(View.GONE);
+        overlay.setOnClickListener(null);
+        overlay.setClickable(false);
     }
     //-----------------------------------------------
     //----------------- ON CLICK --------------------
