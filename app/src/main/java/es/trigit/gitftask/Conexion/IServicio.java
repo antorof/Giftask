@@ -5,10 +5,16 @@ import java.util.List;
 import es.trigit.gitftask.Objetos.Usuario;
 import retrofit.Callback;
 import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.PUT;
+import retrofit.http.Part;
 import retrofit.http.Path;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by Antonio Toro on 06/05/2015.
@@ -24,4 +30,8 @@ public interface IServicio {
 
     @POST("/users/")
     void crearUsuario(@Body Usuario user, Callback<Usuario> cb);
+
+    @POST("/users/login")
+    @FormUrlEncoded
+    void login(@Field("username") String username, @Field("password") String password, @Field("email") String email, Callback<Respuesta.Objeto<Usuario>> cb);
 }
