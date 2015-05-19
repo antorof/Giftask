@@ -91,7 +91,7 @@ public class Globales {
         regalos.add(r3);
         regalos.add(r4);
 
-        setUsuarioLogueado(u1);
+//        setUsuarioLogueado(u1);
     }
 
     private static ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
