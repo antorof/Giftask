@@ -36,10 +36,14 @@ import java.util.Arrays;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import es.trigit.gitftask.Conexion.Respuesta;
+import es.trigit.gitftask.Conexion.IServicio;
 import es.trigit.gitftask.Objetos.Usuario;
 import es.trigit.gitftask.R;
 import es.trigit.gitftask.Utiles.GAHelper;
 import es.trigit.gitftask.Utiles.Globales;
+import retrofit.Callback;
+import retrofit.RestAdapter;
 
 public class ActivityLogin extends FragmentActivity {
 
@@ -77,6 +81,7 @@ public class ActivityLogin extends FragmentActivity {
      */
     private UiLifecycleHelper uiHelper;
 
+    int originalHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +135,8 @@ public class ActivityLogin extends FragmentActivity {
                     .setAction("Iniciar Sesión")
                     .build());
 
-            new ThreadLogin().execute();
+//            new ThreadLogin().execute();
+            hacerLogin();
         }
     }
 
@@ -183,8 +189,10 @@ public class ActivityLogin extends FragmentActivity {
         // Dimensiones de la pantalla
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int width = metrics.widthPixels,
-                height = metrics.heightPixels;
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+
+        originalHeight = panelSuperior.getMeasuredHeight();
 
         // Animación del tamaño de la caja
         ValueAnimator anim = ValueAnimator.ofInt(panelSuperior.getMeasuredHeight(), height + 100);
@@ -218,6 +226,69 @@ public class ActivityLogin extends FragmentActivity {
                 ObjectAnimator.ofFloat(progress, "translationY", 0, height / 3)
         );
         set.setDuration(1 * 500).start();
+    }
+
+    private void ocultaCargando(){
+
+        // Animación del tamaño de la caja
+        ValueAnimator anim = ValueAnimator.ofInt(panelSuperior.getMeasuredHeight(), originalHeight);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = panelSuperior.getLayoutParams();
+                layoutParams.height = val;
+                panelSuperior.setLayoutParams(layoutParams);
+            }
+        });
+        anim.setDuration(500);
+        anim.start();
+
+        // Mostramos el progreso y el titulo
+//        progress.setVisibility(View.GONE);
+//        tvGiftask.setAlpha(0.0f);
+//        tvGiftask.setVisibility(View.GONE);
+        ObjectAnimator animTitle = ObjectAnimator.ofFloat(tvGiftask, "alpha", 1f, 0.0f).setDuration(500);
+        animTitle.setStartDelay(200);
+        animTitle.start();
+
+        // Movemos y escalamos el regalo y el progreso
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(
+                ObjectAnimator.ofFloat(drwRegalo, "scaleX", drwRegalo.getScaleX(), 1f),
+                ObjectAnimator.ofFloat(drwRegalo, "scaleY", drwRegalo.getScaleY(), 1f),
+                ObjectAnimator.ofFloat(tvGiftask, "translationY", tvGiftask.getTranslationY(), 0), //originalHeight / 14
+                ObjectAnimator.ofFloat(drwRegalo, "translationY", drwRegalo.getTranslationY(), 0), //originalHeight / 4,
+                ObjectAnimator.ofFloat(progress, "translationY", progress.getTranslationY(), 0) //originalHeight / 3
+        );
+        set.setDuration(1 * 500).start();
+    }
+
+    private void hacerLogin() {
+        RestAdapter ra = new RestAdapter.Builder().setEndpoint(IServicio.API_URL).build();
+        IServicio iS = ra.create(IServicio.class);
+
+        muestraCargando();
+
+        iS.login(etNickname.getText().toString(), etPassword.getText().toString(), etEmail.getText().toString(), new Callback<Respuesta.Objeto<Usuario>>() {
+            @Override
+            public void success(Respuesta.Objeto<Usuario> resp, retrofit.client.Response response) {
+                Log.e("LOGIN", "ACIEEEEEEERTO");
+                if(resp.response != null) {
+                    mUsuario = resp.response;
+                    finActivity(TipoLogin.login);
+                } else {
+                    ocultaCargando();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("LOGIN", error.getMessage());
+                Log.e("LOGIN","ERROOOOOOOOOOOOOOOOR");
+                ocultaCargando();
+            }
+        });
     }
 
     //---------------------------------------------------
